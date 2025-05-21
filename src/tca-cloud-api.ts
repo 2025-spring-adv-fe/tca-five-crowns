@@ -50,13 +50,14 @@ export const saveGameToCloud = async (
     const options = {
       method: 'POST',
       body: JSON.stringify({
-        TableName: "tca-data",
+        TableName: "tca-data-cdk",
         Item: marshalledGame
       })  
     };
   
     await fetch(
-      "https://32wop75hhc.execute-api.us-east-1.amazonaws.com/prod/data"
+      // "https://32wop75hhc.execute-api.us-east-1.amazonaws.com/prod/data"
+      "https://rgr6kw1mx9.execute-api.us-east-1.amazonaws.com/prod/data"
       , options 
     );
   };
@@ -77,7 +78,8 @@ export const saveGameToCloud = async (
     }
 
     // Use lowercase email since saveGameToCloud always saves with lowercase email ! ! !
-    const url = `https://32wop75hhc.execute-api.us-east-1.amazonaws.com/prod/data/?user=${trimmedLowercaseEmail}&game=${appName}`;
+    // const url = `https://32wop75hhc.execute-api.us-east-1.amazonaws.com/prod/data/?user=${trimmedLowercaseEmail}&game=${appName}`;
+    const url = `https://rgr6kw1mx9.execute-api.us-east-1.amazonaws.com/prod/data?user=${trimmedLowercaseEmail}&game=${appName}`;
     
     console.log("url", url);
     
