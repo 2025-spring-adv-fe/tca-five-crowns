@@ -370,7 +370,7 @@ export const Play: React.FC<PlayProps> = ({
                                         {
                                             `${x} Won`
                                         }
-                                        <span className="text-xs font-light mt--3">Save</span>
+                                        <span className="text-xs font-light">Save</span>
                                     </button>
                                 )
                             )
