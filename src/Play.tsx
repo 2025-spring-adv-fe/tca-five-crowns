@@ -331,7 +331,7 @@ export const Play: React.FC<PlayProps> = ({
                     <h2
                         className="card-title ml-3 mt-3"
                     >
-                        Game Over
+                        Game Over <span className="text-xs font-light">(Save Game)</span>
                     </h2>
                     {
                         possibleWinners.length > 1 && (
@@ -350,7 +350,7 @@ export const Play: React.FC<PlayProps> = ({
                                 x => (
                                     <button
                                         key={x}
-                                        className="btn btn-active btn-secondary btn-lg truncate"
+                                        className="btn btn-active btn-secondary btn-lg truncate flex flex-col gap-0"
                                         onClick={
                                             () => {
                                                 addNewGameResult({
@@ -370,17 +370,18 @@ export const Play: React.FC<PlayProps> = ({
                                         {
                                             `${x} Won`
                                         }
+                                        <span className="text-xs font-light mt--3">Save</span>
                                     </button>
                                 )
                             )
                         }
                         <button
-                            className="btn btn-outline btn-secondary btn-lg"
+                            className="btn btn-outline btn-secondary btn-lg flex flex-col gap-0"
                             onClick={
                                 () => nav(-2)
                             }
                         >
-                            Quit
+                            Quit <span className="text-xs font-light mt--3">Don't Save</span>
                         </button>
                     </div>
                 </div>
