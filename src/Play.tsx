@@ -308,9 +308,11 @@ export const Play: React.FC<PlayProps> = ({
                                 {
                                     orderedPlayers.map(
                                         x => (
-                                            <td>
+                                            <th
+                                                key={x}
+                                            >
                                                 {x} ({getRunningTotal(x, 13)})
-                                            </td>
+                                            </th>
                                         )
                                     )
                                 }
