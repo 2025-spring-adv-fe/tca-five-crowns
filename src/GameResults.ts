@@ -359,7 +359,10 @@ export const getGameHistoryData = (
                     })
                 )
                 .sort(
-                    (a, b) => a.score - b.score
+                    (a, b) => a.name === x.winner 
+                        // Winner should always come before others, even with same score ! ! !
+                        ? -1
+                        : a.score - b.score
                 )
                 .map(
                     x => `${x.name} (${x.score})`
