@@ -50,7 +50,7 @@ export const saveGameToCloud = async (
     const options = {
       method: 'POST',
       body: JSON.stringify({
-        TableName: "tca-data-cdk",
+        TableName: "tca-data",
         Item: marshalledGame
       })  
     };
