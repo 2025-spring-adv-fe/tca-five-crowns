@@ -88,9 +88,13 @@ export interface HighestSingleHandScoreLeaderboardEntry {
     wildCards: string[]; // Changed from single wildCard to an array of wildcards
 }
 
+export interface RankedHighestSingleHandScoreLeaderboardEntry extends HighestSingleHandScoreLeaderboardEntry {
+    rank: number;
+}
+
 export const getHighestSingleHandScoreLeaderboard = (
     results: GameResult[]
-): HighestSingleHandScoreLeaderboardEntry[] => {
+): RankedHighestSingleHandScoreLeaderboardEntry[] => {
     const players = getPreviousPlayers(results);
     const playerHighestSingleHandScores = new Map<string, { score: number; wildCards: number[] }>();
 
@@ -147,7 +151,17 @@ export const getHighestSingleHandScoreLeaderboard = (
             };
         })
         .filter((entry) => entry.highestSingleHandScore > 0) // Only include players with recorded high scores
-        .sort((a, b) => b.highestSingleHandScore - a.highestSingleHandScore); // Sort by highest score
+        .sort((a, b) => b.highestSingleHandScore - a.highestSingleHandScore) // Sort by highest score
+        .map(
+            (x, _, a) => (
+                {
+                    ...x 
+                    , rank: a.findIndex(
+                        y => y.highestSingleHandScore === x.highestSingleHandScore
+                    ) + 1
+                }
+            )
+        );
 };
 
 //

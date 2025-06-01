@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { GameResult, GeneralFacts, RankedGoOutsLeaderboardEntry, HighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
+import { GameResult, GeneralFacts, RankedGoOutsLeaderboardEntry, RankedHighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import copyTextToClipboard from 'copy-text-to-clipboard';
 
@@ -10,7 +10,7 @@ interface HomeProps {
     setTitle: (t: string) => void;
     generalFacts: GeneralFacts;
     goOutsLeaderboardData: RankedGoOutsLeaderboardEntry[];
-    highestSingleHandScoreLeaderboardData: HighestSingleHandScoreLeaderboardEntry[]; // Updated name
+    highestSingleHandScoreLeaderboardData: RankedHighestSingleHandScoreLeaderboardEntry[]; // Updated name
     gameDurationData: any; // : - (
     gamesByMonthData: Array<[string, number]>;
     allGames: { date: string, players: string, result: GameResult }[];
@@ -343,6 +343,7 @@ export const Home: React.FC<HomeProps> = ({
                                     >
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>
                                                     PLAYER
                                                 </th>
@@ -361,6 +362,11 @@ export const Home: React.FC<HomeProps> = ({
                                                         <tr
                                                             key={x.player}
                                                         >
+                                                            <td
+                                                                className="text-xs font-bold"
+                                                            >
+                                                                {x.rank}
+                                                            </td>
                                                             <td>
                                                                 {x.player}
                                                             </td>
