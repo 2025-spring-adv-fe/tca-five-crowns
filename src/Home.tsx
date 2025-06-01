@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { GameResult, GeneralFacts, GoOutsLeaderboardEntry, HighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
+import { GameResult, GeneralFacts, RankedGoOutsLeaderboardEntry, HighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import copyTextToClipboard from 'copy-text-to-clipboard';
 
@@ -9,7 +9,7 @@ interface HomeProps {
     leaderboardData: RankedLeaderboardEntry[];
     setTitle: (t: string) => void;
     generalFacts: GeneralFacts;
-    goOutsLeaderboardData: GoOutsLeaderboardEntry[];
+    goOutsLeaderboardData: RankedGoOutsLeaderboardEntry[];
     highestSingleHandScoreLeaderboardData: HighestSingleHandScoreLeaderboardEntry[]; // Updated name
     gameDurationData: any; // : - (
     gamesByMonthData: Array<[string, number]>;
@@ -209,6 +209,7 @@ export const Home: React.FC<HomeProps> = ({
                                     >
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>
                                                     PLAYER
                                                 </th>
@@ -224,6 +225,11 @@ export const Home: React.FC<HomeProps> = ({
                                                         <tr
                                                             key={x.player}
                                                         >
+                                                            <td
+                                                                className="text-xs font-bold"
+                                                            >
+                                                                {x.rank}
+                                                            </td>
                                                             <td>
                                                                 {x.player}
                                                             </td>

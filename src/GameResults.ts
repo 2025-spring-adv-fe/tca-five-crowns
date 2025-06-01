@@ -79,6 +79,9 @@ export interface GoOutsLeaderboardEntry {
     goOutsPerGame: string;
 }
 
+export interface RankedGoOutsLeaderboardEntry extends GoOutsLeaderboardEntry {
+    rank: number;
+}
 export interface HighestSingleHandScoreLeaderboardEntry {
     player: string;
     highestSingleHandScore: number;
@@ -233,7 +236,7 @@ export const getPreviousPlayers = (results: GameResult[]) => {
 
 export const getGoOutsPerGameLeaderboard = (
 	results: GameResult[],
-): GoOutsLeaderboardEntry[] => {
+): RankedGoOutsLeaderboardEntry[] => {
 	const players = getPreviousPlayers(results);
 
 	return players
@@ -275,7 +278,15 @@ export const getGoOutsPerGameLeaderboard = (
 			}
 
 			return diff;
-		});
+		})
+        .map(
+            (x, _, a) => ({
+                ...x
+                , rank: a.findIndex(
+                    y => y.goOutsPerGame === x.goOutsPerGame
+                ) + 1
+            })
+        );
 };
 
 export const getAverageGameDurationsByPlayerCount = (results: GameResult[]) => {
