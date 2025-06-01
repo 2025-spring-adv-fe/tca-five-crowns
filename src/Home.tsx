@@ -130,6 +130,7 @@ export const Home: React.FC<HomeProps> = ({
                                     >
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>
                                                     W
                                                 </th>
@@ -147,10 +148,15 @@ export const Home: React.FC<HomeProps> = ({
                                         <tbody>
                                             {
                                                 leaderboardData.map(
-                                                    x => (
+                                                    (x, i) => (
                                                         <tr
                                                             key={x.player}
                                                         >
+                                                            <td
+                                                                className="text-xs font-bold"
+                                                            >
+                                                                {i + 1}
+                                                            </td>
                                                             <td>
                                                                 {x.wins}
                                                             </td>
