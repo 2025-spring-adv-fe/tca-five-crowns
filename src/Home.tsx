@@ -14,7 +14,8 @@ interface HomeProps {
     gameDurationData: any; // : - (
     gamesByMonthData: Array<[string, number]>;
     allGames: { date: string, players: string, result: GameResult }[];
-    addNewGameResult: (r: GameResult) => void;
+    addNewGameResult: (r: GameResult, e: string) => void;
+    emailForSaving: string;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -27,6 +28,7 @@ export const Home: React.FC<HomeProps> = ({
     // , gamesByMonthData
     , allGames
     , addNewGameResult
+    , emailForSaving
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -631,7 +633,10 @@ export const Home: React.FC<HomeProps> = ({
 
                                             if (!duplicateGame) {
                                                 // console.log("addNewGameResult");
-                                                addNewGameResult(validateResult.data);
+                                                addNewGameResult(
+                                                    validateResult.data
+                                                    , emailForSaving
+                                                );
                                             }
                                         }
 

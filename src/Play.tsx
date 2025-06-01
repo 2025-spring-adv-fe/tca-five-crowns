@@ -10,15 +10,19 @@ const whildCardHands = [
 const defaultScores = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1];
 
 interface PlayProps {
-    addNewGameResult: (r: GameResult) => void;
+    addNewGameResult: (r: GameResult, e: string) => void;
     setTitle: (t: string) => void;
-    currentPlayers: string[]
+    currentPlayers: string[];
+    emailForSaving: string;
+    saveEmail: (e: string) => void;
 };
 
 export const Play: React.FC<PlayProps> = ({
     addNewGameResult
     , setTitle
     , currentPlayers
+    , emailForSaving
+    , saveEmail
 }) => {
 
     useEffect(
@@ -41,6 +45,7 @@ export const Play: React.FC<PlayProps> = ({
     const [orderedPlayers, setOrderedPlayers] = useState(currentPlayers);
     const changePlayerOrderDialogRef = useRef<HTMLDialogElement | null>(null);
     const [changePlayerSelectedPlayerIndex, setChangePlayerSelectedPlayerIndex] = useState(0);
+    const [emailForInput, setEmailForInput] = useState("");
 
     // Use a Map for local state, but spread into array of arrays for
     // GameResult, i-o-g...
@@ -342,6 +347,21 @@ export const Play: React.FC<PlayProps> = ({
                             </p>
                         )
                     }
+                    {
+                        emailForSaving.length === 0 && (
+                            <input 
+                                type="text" 
+                                placeholder="Enter email to save your game..." 
+                                className="input mx-3" 
+                                value={
+                                    emailForInput
+                                }
+                                onChange={
+                                    (e) => setEmailForInput(e.target.value)
+                                }
+                            />
+                        )
+                    }
                     <div
                         className="grid grid-cols-2 gap-2 mt-3 mx-3 mb-3"
                     >
@@ -351,18 +371,32 @@ export const Play: React.FC<PlayProps> = ({
                                     <button
                                         key={x}
                                         className="btn btn-active btn-secondary btn-lg truncate flex flex-col gap-0"
+                                        disabled={
+                                            emailForInput.length === 0
+                                            && emailForSaving.length === 0
+                                        }
                                         onClick={
-                                            () => {
-                                                addNewGameResult({
-                                                    winner: x
-                                                    , players: orderedPlayers
-                                                    , start: startTimestamp
-                                                    , end: new Date().toISOString()
-                                                    , scores: [
-                                                        ...scores
-                                                    ]
-                                                    , goOuts: goOuts
-                                                });
+                                            async () => {
+
+                                                if (emailForInput.length > 0) {
+                                                    await saveEmail(emailForInput);
+                                                }
+
+                                                await addNewGameResult(
+                                                    {
+                                                        winner: x
+                                                        , players: orderedPlayers
+                                                        , start: startTimestamp
+                                                        , end: new Date().toISOString()
+                                                        , scores: [
+                                                            ...scores
+                                                        ]
+                                                        , goOuts: goOuts
+                                                    }
+                                                    , emailForSaving.length > 0
+                                                        ? emailForSaving
+                                                        : emailForInput
+                                                );
                                                 nav(-2);
                                             }
                                         }

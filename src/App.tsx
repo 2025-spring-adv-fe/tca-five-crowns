@@ -151,11 +151,12 @@ const App = () => {
   //
   const addNewGameResult = async (
     newGameResult: GameResult
+    , email: string
   ) => {
     // Save the game to the cloud via the cloud api...
     await saveGameToCloud(
-      emailForCloudApi.length > 0 
-        ? emailForCloudApi
+      email.length > 0 
+        ? email
         : "unknown@tomfixthis.com" 
       , "tca-five-crowns-25s"
       , newGameResult.end
@@ -169,6 +170,15 @@ const App = () => {
         , newGameResult
       ]
     );
+  };
+
+  const saveEmail = async (emailToSave: string) => {
+    const savedEmail = await localforage.setItem(
+      "email"
+      , emailToSave
+    );
+
+    setEmailForCloudApi(savedEmail);
   };
 
   //
@@ -280,14 +290,7 @@ const App = () => {
               <button 
                 className="btn"
                 onClick={
-                  async () => {
-                    const savedEmail = await localforage.setItem(
-                      "email"
-                      , emailOnModal
-                    );
-                    
-                    setEmailForCloudApi(savedEmail);
-                  }
+                  async () => await saveEmail(emailOnModal)
                 }
               >
                 Save
@@ -328,6 +331,7 @@ const App = () => {
                     getGameHistoryData(gameResults)
                   }
                   addNewGameResult={addNewGameResult}
+                  emailForSaving={emailForCloudApi}
                 />
               } 
             />
@@ -348,6 +352,8 @@ const App = () => {
                   addNewGameResult={addNewGameResult}
                   setTitle={setTitle}
                   currentPlayers={currentPlayers}
+                  emailForSaving={emailForCloudApi}
+                  saveEmail={saveEmail}
                 />
               } 
             />
