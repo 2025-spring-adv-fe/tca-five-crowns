@@ -288,12 +288,20 @@ const App = () => {
             >
               {/* if there is a button in form, it will close the modal */}
               <button 
-                className="btn"
+                className="btn btn-secondary"
                 onClick={
                   async () => await saveEmail(emailOnModal)
                 }
               >
                 Save
+              </button>
+              <button 
+                className="btn btn-secondary btn-outline ml-3"
+                onClick={
+                  () => setEmailOnModal(emailForCloudApi) 
+                }
+              >
+                Cancel
               </button>
             </form>
           </div>
