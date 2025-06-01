@@ -178,6 +178,7 @@ const App = () => {
       , emailToSave
     );
 
+    setEmailOnModal(savedEmail);
     setEmailForCloudApi(savedEmail);
   };
 

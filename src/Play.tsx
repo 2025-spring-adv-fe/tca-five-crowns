@@ -378,10 +378,6 @@ export const Play: React.FC<PlayProps> = ({
                                         onClick={
                                             async () => {
 
-                                                if (emailForInput.length > 0) {
-                                                    await saveEmail(emailForInput);
-                                                }
-
                                                 await addNewGameResult(
                                                     {
                                                         winner: x
@@ -397,6 +393,14 @@ export const Play: React.FC<PlayProps> = ({
                                                         ? emailForSaving
                                                         : emailForInput
                                                 );
+
+                                                // Saving the email after optimistically updating lifted state
+                                                // in App.tsx with hopes that then it will update the email addr
+                                                // and reload all the games, blah, blah, blah...
+                                                if (emailForInput.length > 0) {
+                                                    await saveEmail(emailForInput);
+                                                }
+
                                                 nav(-2);
                                             }
                                         }
