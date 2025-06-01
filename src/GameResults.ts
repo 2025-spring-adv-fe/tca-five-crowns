@@ -61,6 +61,10 @@ export interface LeaderboardEntry {
     player: string;
 }
 
+export interface RankedLeaderboardEntry extends LeaderboardEntry {
+    rank: number;
+};
+
 export interface GeneralFacts {
     lastPlayed: string;
     totalGames: number;
@@ -146,23 +150,38 @@ export const getHighestSingleHandScoreLeaderboard = (
 //
 // Exported functions...
 //
-export const getLeaderboard = (results: GameResult[]): LeaderboardEntry[] =>
+export const getLeaderboard = (results: GameResult[]): RankedLeaderboardEntry[] =>
 	getPreviousPlayers(results)
-		.map((x) => getLeaderboardEntry(results, x))
-		.sort((a, b) => {
-			// Some wins with same average, more games makes you higher on the leaderboard...
-			if (Number(a.average) === Number(b.average) && a.wins > 0) {
-				return b.wins + b.losses - (a.wins + a.losses);
-			}
+		.map(
+            (x) => getLeaderboardEntry(results, x)
+        )
+		.sort(
+            (a, b) => {
+                // Some wins with same average, more games makes you higher on the leaderboard...
+                if (Number(a.average) === Number(b.average) && a.wins > 0) {
+                    return b.wins + b.losses - (a.wins + a.losses);
+                }
 
-			// No wins, more games makes you lower on the leaderboard...
-			if (0 === a.wins && 0 === b.wins) {
-				return a.wins + a.losses - (b.wins + b.losses);
-			}
+                // No wins, more games makes you lower on the leaderboard...
+                if (0 === a.wins && 0 === b.wins) {
+                    return a.wins + a.losses - (b.wins + b.losses);
+                }
 
-			// Non special case, higher average means higher on leaderboard...
-			return Number(b.average) - Number(a.average);
-		});
+                // Non special case, higher average means higher on leaderboard...
+                return Number(b.average) - Number(a.average);
+            }
+        )
+        .map(
+            (x, _, a) => (
+                {
+                    ...x 
+                    , rank: a.findIndex(
+                        y => y.average === x.average
+                    ) + 1
+                }
+            ) 
+        )
+    ;
 
 export const getGeneralFacts = (results: GameResult[]): GeneralFacts => {
 	if (results.length === 0) {

@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router";
-import { GameResult, GeneralFacts, GoOutsLeaderboardEntry, HighestSingleHandScoreLeaderboardEntry, LeaderboardEntry, validateGameResult } from "./GameResults";
+import { GameResult, GeneralFacts, GoOutsLeaderboardEntry, HighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import copyTextToClipboard from 'copy-text-to-clipboard';
 
 export const AppTitle = "Five Crowns Companion";
 
 interface HomeProps {
-    leaderboardData: LeaderboardEntry[];
+    leaderboardData: RankedLeaderboardEntry[];
     setTitle: (t: string) => void;
     generalFacts: GeneralFacts;
     goOutsLeaderboardData: GoOutsLeaderboardEntry[];
@@ -148,14 +148,14 @@ export const Home: React.FC<HomeProps> = ({
                                         <tbody>
                                             {
                                                 leaderboardData.map(
-                                                    (x, i) => (
+                                                    x => (
                                                         <tr
                                                             key={x.player}
                                                         >
                                                             <td
                                                                 className="text-xs font-bold"
                                                             >
-                                                                {i + 1}
+                                                                {x.rank}
                                                             </td>
                                                             <td>
                                                                 {x.wins}
