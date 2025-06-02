@@ -62,7 +62,7 @@ export interface LeaderboardEntry {
 }
 
 export interface RankedLeaderboardEntry extends LeaderboardEntry {
-    rank: number;
+    rank: string;
 };
 
 export interface GeneralFacts {
@@ -80,7 +80,7 @@ export interface GoOutsLeaderboardEntry {
 }
 
 export interface RankedGoOutsLeaderboardEntry extends GoOutsLeaderboardEntry {
-    rank: number;
+    rank: string;
 }
 export interface HighestSingleHandScoreLeaderboardEntry {
     player: string;
@@ -89,7 +89,7 @@ export interface HighestSingleHandScoreLeaderboardEntry {
 }
 
 export interface RankedHighestSingleHandScoreLeaderboardEntry extends HighestSingleHandScoreLeaderboardEntry {
-    rank: number;
+    rank: string;
 }
 
 export const getHighestSingleHandScoreLeaderboard = (
@@ -156,9 +156,14 @@ export const getHighestSingleHandScoreLeaderboard = (
             (x, _, a) => (
                 {
                     ...x 
-                    , rank: a.findIndex(
-                        y => y.highestSingleHandScore === x.highestSingleHandScore
-                    ) + 1
+                    , rank: getRankDisplay(
+                        a.findIndex(
+                            y => y.highestSingleHandScore === x.highestSingleHandScore
+                        )
+                        , a.findLastIndex(
+                            y => y.highestSingleHandScore === x.highestSingleHandScore
+                        )
+                    )
                 }
             )
         );
@@ -192,9 +197,14 @@ export const getLeaderboard = (results: GameResult[]): RankedLeaderboardEntry[] 
             (x, _, a) => (
                 {
                     ...x 
-                    , rank: a.findIndex(
-                        y => y.average === x.average
-                    ) + 1
+                    , rank: getRankDisplay(
+                        a.findIndex(
+                            y => y.average === x.average
+                        )
+                        , a.findLastIndex(
+                            y => y.average === x.average
+                        )
+                    )
                 }
             ) 
         )
@@ -296,9 +306,14 @@ export const getGoOutsPerGameLeaderboard = (
         .map(
             (x, _, a) => ({
                 ...x
-                , rank: a.findIndex(
-                    y => y.goOutsPerGame === x.goOutsPerGame
-                ) + 1
+                , rank: getRankDisplay(
+                    a.findIndex(
+                        y => y.goOutsPerGame === x.goOutsPerGame
+                    )
+                    , a.findLastIndex(
+                        y => y.goOutsPerGame === x.goOutsPerGame
+                    )
+                )
             })
         );
 };
@@ -476,3 +491,8 @@ const safeJsonParseString = async (json: string) => {
         return {};
     }
 };
+
+const getRankDisplay = (
+    firstIndex: number
+    , lastIndex: number
+) => `${firstIndex !== lastIndex ? "T" : ""}${firstIndex + 1}`;
