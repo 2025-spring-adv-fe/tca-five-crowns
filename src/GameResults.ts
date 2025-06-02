@@ -131,7 +131,11 @@ export const getHighestSingleHandScoreLeaderboard = (
                 const newWildCards = wildCardIndices.map(index => index + 3);
                 
                 // Combine existing and new wildcards, avoiding duplicates
-                entry.wildCards = [...new Set([...entry.wildCards, ...newWildCards])];
+                // entry.wildCards = [...new Set([...entry.wildCards, ...newWildCards])];
+
+                // Let's just show dupes for now, this makes rank tie breaks more correct...
+                entry.wildCards = [...entry.wildCards, ...newWildCards];
+
                 playerHighestSingleHandScores.set(playerName, entry);
             }
         });
@@ -151,7 +155,11 @@ export const getHighestSingleHandScoreLeaderboard = (
             };
         })
         .filter((entry) => entry.highestSingleHandScore > 0) // Only include players with recorded high scores
-        .sort((a, b) => b.highestSingleHandScore - a.highestSingleHandScore) // Sort by highest score
+        .sort(
+            (a, b) => b.highestSingleHandScore === a.highestSingleHandScore
+                ? b.wildCards.length - a.wildCards.length 
+                : b.highestSingleHandScore - a.highestSingleHandScore
+        ) // Sort by highest score & number of times player got that score
         .map(
             (x, _, a) => (
                 {
@@ -159,9 +167,11 @@ export const getHighestSingleHandScoreLeaderboard = (
                     , rank: getRankDisplay(
                         a.findIndex(
                             y => y.highestSingleHandScore === x.highestSingleHandScore
+                                && y.wildCards.length === x.wildCards.length
                         )
                         , a.findLastIndex(
                             y => y.highestSingleHandScore === x.highestSingleHandScore
+                                && y.wildCards.length === x.wildCards.length
                         )
                     )
                 }
