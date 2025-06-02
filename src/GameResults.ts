@@ -297,6 +297,12 @@ export const getGoOutsPerGameLeaderboard = (
 			};
 		})
 		.sort((a, b) => {
+
+            // More games with zero go outs is worse ! ! !
+            if (a.totalGoOuts === 0 && b.totalGoOuts === 0) {
+                return a.gamesPlayed - b.gamesPlayed
+            }
+
 			// Sort by go outs per game (descending)
 			const diff = Number(b.goOutsPerGame) - Number(a.goOutsPerGame);
 
@@ -313,9 +319,11 @@ export const getGoOutsPerGameLeaderboard = (
                 , rank: getRankDisplay(
                     a.findIndex(
                         y => y.goOutsPerGame === x.goOutsPerGame
+                            && y.gamesPlayed == x.gamesPlayed
                     )
                     , a.findLastIndex(
                         y => y.goOutsPerGame === x.goOutsPerGame
+                            && y.gamesPlayed == x.gamesPlayed
                     )
                 )
             })
