@@ -200,9 +200,13 @@ export const getLeaderboard = (results: GameResult[]): RankedLeaderboardEntry[] 
                     , rank: getRankDisplay(
                         a.findIndex(
                             y => y.average === x.average
+                                && y.wins === x.wins
+                                && y.losses === x.losses
                         )
                         , a.findLastIndex(
                             y => y.average === x.average
+                                && y.wins === x.wins
+                                && y.losses === x.losses
                         )
                     )
                 }
