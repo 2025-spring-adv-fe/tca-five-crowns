@@ -394,6 +394,43 @@ export const Home: React.FC<HomeProps> = ({
                     }
                 </div>
             </div>
+            <div
+                className="card w-full bg-base-100 card-md shadow-lg mt-4 border-t-4 border-secondary"
+            >
+                <div
+                    className="card-body p-0"
+                >
+                    <h2
+                        className="card-title ml-3 mt-3"
+                    >
+                        Lowest Score (All Time)
+                    </h2>
+                    {
+                        highestSingleHandScoreLeaderboardData.length > 0
+                            ? (
+                                <div>
+                                    <h3
+                                        className="text-6xl ml-3 mb-3 font-bold"
+                                    >
+                                        67
+                                    </h3>
+                                    <h4
+                                        className="text-sm ml-3 mb-3"
+                                    >
+                                        Meh... No real energy for this... Multiple lowest scores, b, b, b...
+                                    </h4>
+                                </div>
+                            )
+                            : (
+                                <p
+                                    className="mx-3 mb-3 font-extralight"
+                                >
+                                    N/A
+                                </p>
+                            )
+                    }
+                </div>
+            </div>
             {/* <div
                 className="card w-full bg-base-100 card-md shadow-lg mt-4 border-t-4 border-secondary"
             >
