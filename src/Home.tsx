@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { GameResult, GeneralFacts, RankedGoOutsLeaderboardEntry, RankedHighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
+import { GameResult, GeneralFacts, LowestScoreAllTimeData, RankedGoOutsLeaderboardEntry, RankedHighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import copyTextToClipboard from 'copy-text-to-clipboard';
 
@@ -16,6 +16,7 @@ interface HomeProps {
     allGames: { date: string, players: string, result: GameResult }[];
     addNewGameResult: (r: GameResult, e: string) => void;
     emailForSaving: string;
+    lowestScoreAllTimeData: LowestScoreAllTimeData;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -29,6 +30,7 @@ export const Home: React.FC<HomeProps> = ({
     , allGames
     , addNewGameResult
     , emailForSaving
+    , lowestScoreAllTimeData
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -406,19 +408,23 @@ export const Home: React.FC<HomeProps> = ({
                         Lowest Score (All Time)
                     </h2>
                     {
-                        highestSingleHandScoreLeaderboardData.length > 0
+                        lowestScoreAllTimeData.playersWithDates.length > 0
                             ? (
                                 <div>
                                     <h3
-                                        className="text-6xl ml-3 mb-3 font-bold"
+                                        className="text-4xl ml-3 mb-3 font-bold"
                                     >
-                                        67
+                                        {
+                                            lowestScoreAllTimeData.score
+                                        }
                                     </h3>
-                                    <h4
-                                        className="text-sm ml-3 mb-3"
+                                    <p
+                                        className="text-lg ml-3 mb-3"
                                     >
-                                        Meh... No real energy for this... Multiple lowest scores, b, b, b...
-                                    </h4>
+                                        {
+                                            lowestScoreAllTimeData.playersWithDates.join(', ')
+                                        }
+                                    </p>
                                 </div>
                             )
                             : (

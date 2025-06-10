@@ -92,6 +92,11 @@ export interface RankedHighestSingleHandScoreLeaderboardEntry extends HighestSin
     rank: string;
 }
 
+export interface LowestScoreAllTimeData {
+    score: number;
+    playersWithDates: string[];
+};
+
 export const getHighestSingleHandScoreLeaderboard = (
     results: GameResult[]
 ): RankedHighestSingleHandScoreLeaderboardEntry[] => {
@@ -465,6 +470,43 @@ export const validateGameResult = async (result: string) => {
     return GameResultSchema.safeParse(parsedObject);
 }
 
+export const getLowestScoreAllTimeData = (
+    results: GameResult[]
+): LowestScoreAllTimeData => {
+
+    // Don't worry about sort, most recent games already first in results ? ? ? i-o-g
+    const winnerScores = results.map(
+        x => ({
+            winner: x.winner
+            , score: x.scores.find(
+                y => y[0] === x.winner
+            )![1].reduce(
+                (acc, z) => z >= 0 
+                    ? acc + z 
+                    : acc
+                , 0
+            )
+            , end: x.end
+        })
+    );
+
+    const lowestScore = Math.min(
+        ...winnerScores.map(
+            x => x.score
+        )
+    );
+
+    return {
+        score: lowestScore
+        , playersWithDates: winnerScores
+            .filter(
+                x => x.score === lowestScore
+            )
+            .map(
+                x => `${x.winner} (${new Date(x.end).toLocaleDateString()})`
+            )
+    };
+};
 //
 // Helper functions...
 //

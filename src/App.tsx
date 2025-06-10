@@ -17,7 +17,8 @@ import {
   , getLeaderboard
   , getPreviousPlayers
   , getGamesByMonth, 
-  getGameHistoryData
+  getGameHistoryData,
+  getLowestScoreAllTimeData
 } from './GameResults';
 import localforage from 'localforage';
 
@@ -341,6 +342,9 @@ const App = () => {
                   }
                   addNewGameResult={addNewGameResult}
                   emailForSaving={emailForCloudApi}
+                  lowestScoreAllTimeData={
+                    getLowestScoreAllTimeData(gameResults)
+                  }
                 />
               } 
             />
