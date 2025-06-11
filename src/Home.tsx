@@ -148,12 +148,11 @@ export const Home: React.FC<HomeProps> = ({
                                             {
                                                 datasets: [
                                                     {
-                                                        label: "Sample Data",
                                                         data: [
-                                                            { x: "2025-06-01", y: 0 },
+                                                            { x: "2025-06-04", y: 0 },
                                                             { x: "2025-06-05", y: 2 },
                                                             { x: "2025-06-10", y: 3 },
-                                                            { x: "2025-06-12", y: 3 },
+                                                            { x: "2025-06-11", y: 4 },
                                                         ],
                                                         borderColor: "#de2a8a",
                                                         backgroundColor: "#fff"
@@ -190,8 +189,7 @@ export const Home: React.FC<HomeProps> = ({
                                                         min: 0, 
                                                         // max: 10,
                                                         title: {
-                                                            display: true,
-                                                            text: "#",
+                                                            display: false,
                                                         },
                                                     },
                                                 },
