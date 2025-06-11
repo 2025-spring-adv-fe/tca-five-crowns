@@ -152,11 +152,16 @@ export const Home: React.FC<HomeProps> = ({
                                                             { x: "2025-05-04", y: 0 },
                                                             { x: "2025-05-05", y: 2 },
                                                             { x: "2025-05-10", y: 3 },
-                                                            { x: "2027-05-10", y: 4 },
-                                                            { x: "2028-06-11", y: 4 },
+
+                                                            { x: "2025-05-11", y: 4 },
+                                                            { x: "2025-06-01", y: 5 },
+
+                                                            // { x: "2027-05-10", y: 4 },
+                                                            // { x: "2028-06-11", y: 5 },
+                                                            // { x: "2028-06-12", y: 7 },
                                                         ],
                                                         borderColor: "#de2a8a",
-                                                        backgroundColor: "#fff"
+                                                        backgroundColor: "#fff",
                                                     },
                                                 ],
                                             }
@@ -175,13 +180,19 @@ export const Home: React.FC<HomeProps> = ({
                                                         time: {
                                                             unit: "day", // Options: 'minute', 'hour', 'day', 'week', etc.
                                                             displayFormats: {
-                                                                day: "M/dd/yy"
+                                                                month: "M/d/yy",
+                                                                week: "M/d/yy", 
+                                                                day: " "
                                                             }
                                                         },
                                                         title: {
                                                             display: true,
-                                                            text: "Date",
+                                                            text: "Tap Points for Details",
                                                         },
+                                                        display: true,
+                                                        grid: {
+                                                            display: false
+                                                        }
                                                     },
                                                     y: {
                                                         ticks: {
