@@ -205,7 +205,7 @@ export const Home: React.FC<HomeProps> = ({
                                                         min: 0, 
                                                         // max: 10,
                                                         title: {
-                                                            display: true,
+                                                            display: false,
                                                             text: "# Played"
                                                         },
                                                     },
