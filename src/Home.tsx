@@ -4,16 +4,18 @@ import { useEffect, useRef, useState } from "react";
 import copyTextToClipboard from 'copy-text-to-clipboard';
 import { Line } from 'react-chartjs-2';
 import {
-  Chart as ChartJS,
-  LineElement,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  Tooltip,
-  Legend,
+    Chart as ChartJS,
+    LineElement,
+    CategoryScale,
+    LinearScale,
+    TimeScale,
+    PointElement,
+    Tooltip,
+    Legend,
 } from "chart.js";
+import "chartjs-adapter-date-fns";
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
+ChartJS.register(LineElement, CategoryScale, TimeScale, LinearScale, PointElement, Tooltip, Legend);
 
 export const AppTitle = "Five Crowns Companion";
 
@@ -131,7 +133,7 @@ export const Home: React.FC<HomeProps> = ({
                     className="card-body p-0"
                 >
                     <h2
-                        className="card-title ml-3 mt-3"
+                        className="card-title ml-3 mt-3 mb-3"
                     >
                         Games Played Trend
                     </h2>
@@ -144,59 +146,56 @@ export const Home: React.FC<HomeProps> = ({
                                     <Line
                                         data={
                                             {
-                                                labels: ["January", "February", "March", "April", "May", "June"],
                                                 datasets: [
                                                     {
-                                                        label: "Sales 2025",
-                                                        data: [65, 59, 80, 81, 56, 55],
-                                                        borderColor: "rgba(75,192,192,1)",
-                                                        backgroundColor: "rgba(75,192,192,0.2)",
-                                                        tension: 0.4, // Smooth curve
-                                                        pointBorderColor: "rgba(75,192,192,1)",
-                                                        pointBackgroundColor: "#fff",
-                                                        pointHoverRadius: 5,
-                                                    },
-                                                    {
-                                                        label: "Sales 2024",
-                                                        data: [45, 49, 60, 71, 46, 35],
-                                                        borderColor: "rgba(153,102,255,1)",
-                                                        backgroundColor: "rgba(153,102,255,0.2)",
-                                                        tension: 0.4,
-                                                        pointBorderColor: "rgba(153,102,255,1)",
-                                                        pointBackgroundColor: "#fff",
-                                                        pointHoverRadius: 5,
+                                                        label: "Sample Data",
+                                                        data: [
+                                                            { x: "2025-06-01", y: 0 },
+                                                            { x: "2025-06-05", y: 2 },
+                                                            { x: "2025-06-10", y: 3 },
+                                                            { x: "2025-06-12", y: 3 },
+                                                        ],
+                                                        borderColor: "#de2a8a",
+                                                        backgroundColor: "#fff"
                                                     },
                                                 ],
                                             }
                                         }
                                         options={
                                             {
-                                                responsive: true,
                                                 plugins: {
                                                     legend: {
-                                                        position: "top",
-                                                    },
-                                                    tooltip: {
-                                                        enabled: true,
-                                                    },
+                                                        display: false
+                                                    }
                                                 },
+                                                responsive: true,
                                                 scales: {
                                                     x: {
+                                                        type: "time",
+                                                        time: {
+                                                            unit: "day", // Options: 'minute', 'hour', 'day', 'week', etc.
+                                                            displayFormats: {
+                                                                day: "M/dd/yy"
+                                                            }
+                                                        },
                                                         title: {
                                                             display: true,
-                                                            text: "Months",
+                                                            text: "Date",
                                                         },
                                                     },
                                                     y: {
+                                                        ticks: {
+                                                            stepSize: 1,
+                                                        },
+                                                        min: 0, 
+                                                        // max: 10,
                                                         title: {
                                                             display: true,
-                                                            text: "Sales (in USD)",
+                                                            text: "#",
                                                         },
-                                                        beginAtZero: true,
                                                     },
                                                 },
-                                            }
-                                        }
+                                            }}
                                     />
                                 )
                                 : (
