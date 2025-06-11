@@ -507,6 +507,20 @@ export const getLowestScoreAllTimeData = (
             )
     };
 };
+
+const getGamesPlayedTrendChartData = () => {
+
+    return [
+        {
+            date: "5/7/2025"
+            , runningTotal: 3
+        }
+        , {
+            date: "5/8/2025"
+            , runningTotal: 5
+        }
+    ];
+};
 //
 // Helper functions...
 //

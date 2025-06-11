@@ -119,6 +119,23 @@ export const Home: React.FC<HomeProps> = ({
                     <h2
                         className="card-title ml-3 mt-3"
                     >
+                        Games Played Trend
+                    </h2>
+                    <div
+                        className="overflow-x-auto"
+                    >
+                    </div>
+                </div>
+            </div>
+            <div
+                className="card w-full bg-base-100 card-md shadow-lg mt-4 border-t-4 border-secondary"
+            >
+                <div
+                    className="card-body p-0"
+                >
+                    <h2
+                        className="card-title ml-3 mt-3"
+                    >
                         Leaderboard
                     </h2>
                     {
