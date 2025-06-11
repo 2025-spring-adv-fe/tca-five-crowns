@@ -512,17 +512,48 @@ export const getGamesPlayedTrendChartData = (
     results: GameResult[]
 ) => {
 
+    if (results.length === 0) {
+        return [];
+    }
+    
+    const grouped = results.reduce(
+		(acc, x) =>
+			acc.set(
+				timestampToDate(x.end)
+				, (acc.get(timestampToDate(x.end)) ?? 0) + 1,
+			),
+		new Map<string, number>(),
+	);    
+    
+    const rt = [
+        ...grouped
+    ].reverse().reduce(
+        (acc: any, [date, count]) => {
+            const runningTotal = acc.length > 0 ? acc[acc.length - 1][1] + count : count;
+            return [
+                ...acc
+                , [date, runningTotal]
+            ];
+        },
+        []
+    );
+
     return [
-        {
-            date: "5/7/2025"
-            , runningTotal: 3
-        }
-        , {
-            date: "5/8/2025"
-            , runningTotal: 5
-        }
-    ];
+        ...rt
+        , [
+            timestampToDate(
+                new Date().toISOString()
+            )
+            , rt.length > 0 ? rt[rt.length - 1][1] : 0
+        ]
+    ].map(
+        (x: any) => ({
+            x: x[0]
+            , y: x[1]
+        })
+    );
 };
+
 //
 // Helper functions...
 //
@@ -576,3 +607,12 @@ const getRankDisplay = (
     firstIndex: number
     , lastIndex: number
 ) => `${firstIndex !== lastIndex ? "T" : ""}${firstIndex + 1}`;
+
+// From Copilot search result "javascript timestamp to yyyy-mm-ddd"
+const timestampToDate = (timestamp: string) => {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};

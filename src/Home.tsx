@@ -148,18 +148,22 @@ export const Home: React.FC<HomeProps> = ({
                                             {
                                                 datasets: [
                                                     {
-                                                        data: [
-                                                            { x: "2025-05-04", y: 0 },
-                                                            { x: "2025-05-05", y: 2 },
-                                                            { x: "2025-05-10", y: 3 },
+                                                        // data: [
+                                                        //     { x: "2025-05-04", y: 0 },
+                                                        //     // { x: "2025-05-05", y: 1 },
+                                                        //     { x: "2025-05-05", y: 2 },
+                                                        //     { x: "2025-05-10", y: 3 },
 
-                                                            { x: "2025-05-11", y: 4 },
-                                                            { x: "2025-06-01", y: 5 },
+                                                        //     { x: "2025-05-11", y: 4 },
+                                                        //     { x: "2025-06-01", y: 5 },
+                                                        //     { x: "2025-06-11", y: 5 },
 
-                                                            // { x: "2027-05-10", y: 4 },
-                                                            // { x: "2028-06-11", y: 5 },
-                                                            // { x: "2028-06-12", y: 7 },
-                                                        ],
+                                                        //     // { x: "2027-05-10", y: 4 },
+                                                        //     // { x: "2028-06-01", y: 5 },
+                                                        //     // { x: "2028-06-02", y: 7 },
+
+                                                        // ],
+                                                        data: gamesPlayedTrendChartData,
                                                         borderColor: "#de2a8a",
                                                         backgroundColor: "#fff",
                                                     },
@@ -201,7 +205,8 @@ export const Home: React.FC<HomeProps> = ({
                                                         min: 0, 
                                                         // max: 10,
                                                         title: {
-                                                            display: false,
+                                                            display: true,
+                                                            text: "# Played"
                                                         },
                                                     },
                                                 },
