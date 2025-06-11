@@ -2,6 +2,18 @@ import { useNavigate } from "react-router";
 import { GameResult, GeneralFacts, LowestScoreAllTimeData, RankedGoOutsLeaderboardEntry, RankedHighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import copyTextToClipboard from 'copy-text-to-clipboard';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Tooltip,
+  Legend,
+} from "chart.js";
+
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend);
 
 export const AppTitle = "Five Crowns Companion";
 
@@ -17,6 +29,7 @@ interface HomeProps {
     addNewGameResult: (r: GameResult, e: string) => void;
     emailForSaving: string;
     lowestScoreAllTimeData: LowestScoreAllTimeData;
+    gamesPlayedTrendChartData: any;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -31,6 +44,7 @@ export const Home: React.FC<HomeProps> = ({
     , addNewGameResult
     , emailForSaving
     , lowestScoreAllTimeData
+    , gamesPlayedTrendChartData
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -124,6 +138,75 @@ export const Home: React.FC<HomeProps> = ({
                     <div
                         className="overflow-x-auto"
                     >
+                        {
+                            gamesPlayedTrendChartData.length > 0
+                                ? (
+                                    <Line
+                                        data={
+                                            {
+                                                labels: ["January", "February", "March", "April", "May", "June"],
+                                                datasets: [
+                                                    {
+                                                        label: "Sales 2025",
+                                                        data: [65, 59, 80, 81, 56, 55],
+                                                        borderColor: "rgba(75,192,192,1)",
+                                                        backgroundColor: "rgba(75,192,192,0.2)",
+                                                        tension: 0.4, // Smooth curve
+                                                        pointBorderColor: "rgba(75,192,192,1)",
+                                                        pointBackgroundColor: "#fff",
+                                                        pointHoverRadius: 5,
+                                                    },
+                                                    {
+                                                        label: "Sales 2024",
+                                                        data: [45, 49, 60, 71, 46, 35],
+                                                        borderColor: "rgba(153,102,255,1)",
+                                                        backgroundColor: "rgba(153,102,255,0.2)",
+                                                        tension: 0.4,
+                                                        pointBorderColor: "rgba(153,102,255,1)",
+                                                        pointBackgroundColor: "#fff",
+                                                        pointHoverRadius: 5,
+                                                    },
+                                                ],
+                                            }
+                                        }
+                                        options={
+                                            {
+                                                responsive: true,
+                                                plugins: {
+                                                    legend: {
+                                                        position: "top",
+                                                    },
+                                                    tooltip: {
+                                                        enabled: true,
+                                                    },
+                                                },
+                                                scales: {
+                                                    x: {
+                                                        title: {
+                                                            display: true,
+                                                            text: "Months",
+                                                        },
+                                                    },
+                                                    y: {
+                                                        title: {
+                                                            display: true,
+                                                            text: "Sales (in USD)",
+                                                        },
+                                                        beginAtZero: true,
+                                                    },
+                                                },
+                                            }
+                                        }
+                                    />
+                                )
+                                : (
+                                    <p
+                                        className="mx-3 mb-3 font-extralight"
+                                    >
+                                        N/A
+                                    </p>
+                                )
+                        }
                     </div>
                 </div>
             </div>
@@ -559,7 +642,7 @@ export const Home: React.FC<HomeProps> = ({
                                                     DATE
                                                 </th>
                                                 <th>
-                                                    PLAYERS 
+                                                    PLAYERS
                                                     <span
                                                         className="text-xs font-light ml-4"
                                                     >
@@ -694,7 +777,7 @@ export const Home: React.FC<HomeProps> = ({
                                     async () => {
                                         const clip = await navigator.clipboard.readText();
                                         const validateResult = await validateGameResult(clip);
-                                        
+
                                         if (validateResult.success) {
 
                                             const duplicateGame = allGames
@@ -707,7 +790,7 @@ export const Home: React.FC<HomeProps> = ({
                                                         && x.end === validateResult.data.end
                                                     )
                                                 )
-                                            ;
+                                                ;
 
                                             if (!duplicateGame) {
                                                 // console.log("addNewGameResult");

@@ -508,7 +508,9 @@ export const getLowestScoreAllTimeData = (
     };
 };
 
-const getGamesPlayedTrendChartData = () => {
+export const getGamesPlayedTrendChartData = (
+    results: GameResult[]
+) => {
 
     return [
         {
