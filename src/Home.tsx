@@ -167,6 +167,7 @@ export const Home: React.FC<HomeProps> = ({
                                                         data: gamesPlayedTrendChartData,
                                                         borderColor: "#de2a8a",
                                                         backgroundColor: "#fff",
+                                                        pointRadius: 6,
                                                     },
                                                 ],
                                             }
