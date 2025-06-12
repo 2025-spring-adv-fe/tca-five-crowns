@@ -133,7 +133,7 @@ export const Home: React.FC<HomeProps> = ({
                     className="card-body p-0"
                 >
                     <h2
-                        className="card-title ml-3 mt-3 mb-3"
+                        className="card-title ml-3 mt-3"
                     >
                         Games Played Trend
                     </h2>
@@ -144,6 +144,7 @@ export const Home: React.FC<HomeProps> = ({
                             gamesPlayedTrendChartData.length > 0
                                 ? (
                                     <Line
+                                        className="p-1"
                                         data={
                                             {
                                                 datasets: [
@@ -175,7 +176,19 @@ export const Home: React.FC<HomeProps> = ({
                                                 plugins: {
                                                     legend: {
                                                         display: false
-                                                    }
+                                                    },
+                                                    tooltip: {
+                                                        callbacks: {
+                                                            title: (tooltipItems) => {
+                                                                const item = tooltipItems[0];
+                                                                const date = new Date(item.parsed.x);
+                                                                return date.toLocaleDateString();
+                                                            },
+                                                            label: (tooltipItem) => {
+                                                                return `${tooltipItem.parsed.y} total games`;
+                                                            }
+                                                        },
+                                                    },
                                                 },
                                                 responsive: true,
                                                 scales: {
@@ -185,7 +198,7 @@ export const Home: React.FC<HomeProps> = ({
                                                             unit: "day", // Options: 'minute', 'hour', 'day', 'week', etc.
                                                             displayFormats: {
                                                                 month: "M/d/yy",
-                                                                week: "M/d/yy", 
+                                                                week: "M/d/yy",
                                                                 day: " "
                                                             }
                                                         },
@@ -202,7 +215,7 @@ export const Home: React.FC<HomeProps> = ({
                                                         ticks: {
                                                             stepSize: 1,
                                                         },
-                                                        min: 0, 
+                                                        min: 0,
                                                         // max: 10,
                                                         title: {
                                                             display: false,
@@ -210,7 +223,8 @@ export const Home: React.FC<HomeProps> = ({
                                                         },
                                                     },
                                                 },
-                                            }}
+                                            }
+                                        }
                                     />
                                 )
                                 : (
