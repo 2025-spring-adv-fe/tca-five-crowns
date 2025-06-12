@@ -191,6 +191,7 @@ export const Home: React.FC<HomeProps> = ({
                                                     },
                                                 },
                                                 responsive: true,
+                                                maintainAspectRatio: false,
                                                 scales: {
                                                     x: {
                                                         type: "time",
