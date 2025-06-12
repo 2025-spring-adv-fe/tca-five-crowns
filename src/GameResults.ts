@@ -555,6 +555,57 @@ export const getGamesPlayedTrendChartData = (
 };
 
 //
+// tsteelematc: Can you make a function similar to getGamesPlayedTrendData named getScoreDistribution grouping by bins of 10
+//
+export const getScoreDistributionData = (
+    results: GameResult[]
+) => {
+    if (results.length === 0) {
+        return [];
+    }
+    
+    // Get all final scores from all games
+    const allScores = results.flatMap(game => 
+        game.scores.map(([, scores]) => 
+            scores.reduce((acc, score) => score >= 0 ? acc + score : acc, 0)
+        )
+    );
+    
+    if (allScores.length === 0) {
+        return [];
+    }
+    
+    // Find the range of scores
+    const minScore = Math.min(...allScores);
+    const maxScore = Math.max(...allScores);
+    
+    // Create bins of 25 (0-24, 25-49, 50-74, etc.)
+    const minBin = Math.floor(minScore / 25) * 25;
+    const maxBin = Math.floor(maxScore / 25) * 25;
+    
+    const bins = new Map<string, number>();
+    
+    // Initialize all bins in the range
+    for (let bin = minBin; bin <= maxBin; bin += 25) {
+        const binLabel = `${bin}-${bin + 24}`;
+        bins.set(binLabel, 0);
+    }
+    
+    // Count scores in each bin
+    allScores.forEach(score => {
+        const binStart = Math.floor(score / 25) * 25;
+        const binLabel = `${binStart}-${binStart + 24}`;
+        bins.set(binLabel, (bins.get(binLabel) || 0) + 1);
+    });
+    
+    // Convert to array format suitable for charting
+    return Array.from(bins.entries()).map(([binLabel, count]) => ({
+        x: binLabel,
+        y: count
+    }));
+};
+
+//
 // Helper functions...
 //
 const getLeaderboardEntry = (

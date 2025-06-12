@@ -2,10 +2,11 @@ import { useNavigate } from "react-router";
 import { GameResult, GeneralFacts, LowestScoreAllTimeData, RankedGoOutsLeaderboardEntry, RankedHighestSingleHandScoreLeaderboardEntry, RankedLeaderboardEntry, validateGameResult } from "./GameResults";
 import { useEffect, useRef, useState } from "react";
 import copyTextToClipboard from 'copy-text-to-clipboard';
-import { Line } from 'react-chartjs-2';
+import { Bar, Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
     LineElement,
+    BarElement,
     CategoryScale,
     LinearScale,
     TimeScale,
@@ -15,7 +16,7 @@ import {
 } from "chart.js";
 import "chartjs-adapter-date-fns";
 
-ChartJS.register(LineElement, CategoryScale, TimeScale, LinearScale, PointElement, Tooltip, Legend);
+ChartJS.register(LineElement, BarElement, CategoryScale, TimeScale, LinearScale, PointElement, Tooltip, Legend);
 
 export const AppTitle = "Five Crowns Companion";
 
@@ -32,6 +33,7 @@ interface HomeProps {
     emailForSaving: string;
     lowestScoreAllTimeData: LowestScoreAllTimeData;
     gamesPlayedTrendChartData: any;
+    scoreDistributionData: any;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -47,6 +49,7 @@ export const Home: React.FC<HomeProps> = ({
     , emailForSaving
     , lowestScoreAllTimeData
     , gamesPlayedTrendChartData
+    , scoreDistributionData
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -143,91 +146,95 @@ export const Home: React.FC<HomeProps> = ({
                         {
                             gamesPlayedTrendChartData.length > 0
                                 ? (
-                                    <Line
-                                        className="p-1"
-                                        data={
-                                            {
-                                                datasets: [
-                                                    {
-                                                        // data: [
-                                                        //     { x: "2025-05-04", y: 0 },
-                                                        //     // { x: "2025-05-05", y: 1 },
-                                                        //     { x: "2025-05-05", y: 2 },
-                                                        //     { x: "2025-05-10", y: 3 },
+                                    <div
+                                        className="overflow-x-auto"
+                                    >
+                                        <Line
+                                            className="p-1"
+                                            data={
+                                                {
+                                                    datasets: [
+                                                        {
+                                                            // data: [
+                                                            //     { x: "2025-05-04", y: 0 },
+                                                            //     // { x: "2025-05-05", y: 1 },
+                                                            //     { x: "2025-05-05", y: 2 },
+                                                            //     { x: "2025-05-10", y: 3 },
 
-                                                        //     { x: "2025-05-11", y: 4 },
-                                                        //     { x: "2025-06-01", y: 5 },
-                                                        //     { x: "2025-06-11", y: 5 },
+                                                            //     { x: "2025-05-11", y: 4 },
+                                                            //     { x: "2025-06-01", y: 5 },
+                                                            //     { x: "2025-06-11", y: 5 },
 
-                                                        //     // { x: "2027-05-10", y: 4 },
-                                                        //     // { x: "2028-06-01", y: 5 },
-                                                        //     // { x: "2028-06-02", y: 7 },
+                                                            //     // { x: "2027-05-10", y: 4 },
+                                                            //     // { x: "2028-06-01", y: 5 },
+                                                            //     // { x: "2028-06-02", y: 7 },
 
-                                                        // ],
-                                                        data: gamesPlayedTrendChartData,
-                                                        borderColor: "#de2a8a",
-                                                        backgroundColor: "#fff",
-                                                        pointRadius: 6,
-                                                    },
-                                                ],
+                                                            // ],
+                                                            data: gamesPlayedTrendChartData,
+                                                            borderColor: "#de2a8a",
+                                                            backgroundColor: "#fff",
+                                                            pointRadius: 6,
+                                                        },
+                                                    ],
+                                                }
                                             }
-                                        }
-                                        options={
-                                            {
-                                                plugins: {
-                                                    legend: {
-                                                        display: false
-                                                    },
-                                                    tooltip: {
-                                                        callbacks: {
-                                                            title: (tooltipItems) => {
-                                                                const item = tooltipItems[0];
-                                                                const date = new Date(item.parsed.x);
-                                                                return date.toLocaleDateString();
-                                                            },
-                                                            label: (tooltipItem) => {
-                                                                return `${tooltipItem.parsed.y} total games`;
-                                                            }
-                                                        },
-                                                    },
-                                                },
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                                scales: {
-                                                    x: {
-                                                        type: "time",
-                                                        time: {
-                                                            unit: "day", // Options: 'minute', 'hour', 'day', 'week', etc.
-                                                            displayFormats: {
-                                                                month: "M/d/yy",
-                                                                week: "M/d/yy",
-                                                                day: " "
-                                                            }
-                                                        },
-                                                        title: {
-                                                            display: true,
-                                                            text: "Tap Points for Details",
-                                                        },
-                                                        display: true,
-                                                        grid: {
+                                            options={
+                                                {
+                                                    plugins: {
+                                                        legend: {
                                                             display: false
-                                                        }
-                                                    },
-                                                    y: {
-                                                        ticks: {
-                                                            stepSize: 1,
                                                         },
-                                                        min: 0,
-                                                        // max: 10,
-                                                        title: {
-                                                            display: false,
-                                                            text: "# Played"
+                                                        tooltip: {
+                                                            callbacks: {
+                                                                title: (tooltipItems) => {
+                                                                    const item = tooltipItems[0];
+                                                                    const date = new Date(item.parsed.x);
+                                                                    return date.toLocaleDateString();
+                                                                },
+                                                                label: (tooltipItem) => {
+                                                                    return `${tooltipItem.parsed.y} total games`;
+                                                                }
+                                                            },
                                                         },
                                                     },
-                                                },
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    scales: {
+                                                        x: {
+                                                            type: "time",
+                                                            time: {
+                                                                unit: "day", // Options: 'minute', 'hour', 'day', 'week', etc.
+                                                                displayFormats: {
+                                                                    month: "M/d/yy",
+                                                                    week: "M/d/yy",
+                                                                    day: " "
+                                                                }
+                                                            },
+                                                            title: {
+                                                                display: true,
+                                                                text: "Tap Points for Details",
+                                                            },
+                                                            display: true,
+                                                            grid: {
+                                                                display: false
+                                                            }
+                                                        },
+                                                        y: {
+                                                            ticks: {
+                                                                stepSize: 1,
+                                                            },
+                                                            min: 0,
+                                                            // max: 10,
+                                                            title: {
+                                                                display: false,
+                                                                text: "# Played"
+                                                            },
+                                                        },
+                                                    },
+                                                }
                                             }
-                                        }
-                                    />
+                                        />
+                                    </div>
                                 )
                                 : (
                                     <p
@@ -565,6 +572,94 @@ export const Home: React.FC<HomeProps> = ({
                                 </p>
                             )
                     }
+                </div>
+            </div>
+            <div
+                className="card w-full bg-base-100 card-md shadow-lg mt-4 border-t-4 border-secondary"
+            >
+                <div
+                    className="card-body p-0"
+                >
+                    <h2
+                        className="card-title ml-3 mt-3"
+                    >
+                        Score Distribution
+                    </h2>
+                    <div
+                        className="overflow-x-auto"
+                    >
+                        {
+                            scoreDistributionData.length > 0
+                                ? (
+                                    <div
+                                        className="overflow-x-auto"
+                                    >
+                                        <Bar
+                                            className="p-1"
+                                            data={
+                                                {
+                                                    datasets: [
+                                                        {
+                                                            data: scoreDistributionData,
+                                                            backgroundColor: "#de2a8a",
+                                                            borderColor: "#de2a8a",
+                                                            borderWidth: 1,
+                                                        },
+                                                    ],
+                                                }
+                                            }
+                                            options={
+                                                {
+                                                    plugins: {
+                                                        legend: {
+                                                            display: false
+                                                        },
+                                                        tooltip: {
+                                                            callbacks: {
+                                                                label: (tooltipItem) => {
+                                                                    return `${tooltipItem.parsed.y} player${tooltipItem.parsed.y !== 1 ? 's' : ''}`;
+                                                                }
+                                                            },
+                                                        },
+                                                    },
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    scales: {
+                                                        x: {
+                                                            title: {
+                                                                display: true,
+                                                                text: "Score Ranges",
+                                                            },
+                                                            display: true,
+                                                            grid: {
+                                                                display: false
+                                                            }
+                                                        },
+                                                        y: {
+                                                            ticks: {
+                                                                stepSize: 1,
+                                                            },
+                                                            min: 0,
+                                                            title: {
+                                                                display: false,
+                                                                text: "Number of Games"
+                                                            },
+                                                        },
+                                                    },
+                                                }
+                                            }
+                                        />
+                                    </div>
+                                )
+                                : (
+                                    <p
+                                        className="mx-3 mb-3 font-extralight"
+                                    >
+                                        N/A
+                                    </p>
+                                )
+                        }
+                    </div>
                 </div>
             </div>
             {/* <div

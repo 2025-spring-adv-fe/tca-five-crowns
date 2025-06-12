@@ -1,14 +1,14 @@
 import './App.css'
 import {
   HashRouter
-  , Routes 
+  , Routes
   , Route
 } from 'react-router';
 import { AppTitle, Home } from './Home';
 import { Setup } from './Setup';
 import { Play } from './Play';
 import { useEffect, useRef, useState } from 'react';
-import { 
+import {
   GameResult
   , getAverageGameDurationsByPlayerCount
   , getGeneralFacts
@@ -16,15 +16,16 @@ import {
   , getHighestSingleHandScoreLeaderboard
   , getLeaderboard
   , getPreviousPlayers
-  , getGamesByMonth, 
+  , getGamesByMonth,
   getGameHistoryData,
   getLowestScoreAllTimeData,
-  getGamesPlayedTrendChartData
+  getGamesPlayedTrendChartData,
+  getScoreDistributionData
 } from './GameResults';
 import localforage from 'localforage';
 
 import {
-  saveGameToCloud 
+  saveGameToCloud
   , loadGamesFromCloud
 } from './tca-cloud-api';
 
@@ -46,7 +47,7 @@ const App = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   const [emailOnModal, setEmailOnModal] = useState("");
-  
+
   const [emailForCloudApi, setEmailForCloudApi] = useState("");
 
   useEffect(
@@ -87,8 +88,8 @@ const App = () => {
 
         if (!ignore) {
           setEmailOnModal(savedEmail);
-          
-          if(savedEmail.length > 0) {
+
+          if (savedEmail.length > 0) {
             setEmailForCloudApi(savedEmail);
           }
         }
@@ -117,7 +118,7 @@ const App = () => {
       const loadGameResults = async () => {
 
         const savedGameResults = await loadGamesFromCloud(
-          emailForCloudApi 
+          emailForCloudApi
           , "tca-five-crowns-25s"
         );
 
@@ -157,9 +158,9 @@ const App = () => {
   ) => {
     // Save the game to the cloud via the cloud api...
     await saveGameToCloud(
-      email.length > 0 
+      email.length > 0
         ? email
-        : "unknown@tomfixthis.com" 
+        : "unknown@tomfixthis.com"
       , "tca-five-crowns-25s"
       , newGameResult.end
       , newGameResult
@@ -193,20 +194,20 @@ const App = () => {
       className='p-0 overflow-x-hidden min-h-screen'
       data-theme={darkMode ? "dark" : "light"}
     >
-      <div 
+      <div
         className="navbar bg-base-300 shadow-lg overflow-x-hidden flex"
       >
-        <h1 
+        <h1
           className="text-xl font-bold"
         >
-          { title }
+          {title}
         </h1>
-        <div 
+        <div
           className="flex gap-1 ml-auto"
         >
           {
             AppTitle === title && (
-              <button 
+              <button
                 className="btn btn-ghost"
                 onClick={
                   () => emailModalRef.current?.showModal()
@@ -219,12 +220,12 @@ const App = () => {
               </button>
             )
           }
-          <label 
+          <label
             className="swap swap-rotate"
           >
             {/* this hidden checkbox controls the state */}
-            <input 
-              type="checkbox" 
+            <input
+              type="checkbox"
               onClick={
                 async () => {
                   const savedDarkMode = await localforage.setItem("darkMode", !darkMode);
@@ -258,39 +259,39 @@ const App = () => {
         </div>
       </div>
       <dialog
-        ref={emailModalRef} 
+        ref={emailModalRef}
         className="modal modal-bottom sm:modal-middle"
       >
         <div className="modal-backdrop bg-base-300"></div>
-        <div 
+        <div
           className="modal-box"
         >
-          <h3 
+          <h3
             className="font-bold text-lg"
           >
             Enter email to load & save games...
           </h3>
-          <p 
+          <p
             className="py-4"
           >
-            <input 
-                type="text" 
-                placeholder="Enter email address..." 
-                className="input w-full" 
-                value={emailOnModal}
-                onChange={
-                    (e) => setEmailOnModal(e.target.value)
-                }
+            <input
+              type="text"
+              placeholder="Enter email address..."
+              className="input w-full"
+              value={emailOnModal}
+              onChange={
+                (e) => setEmailOnModal(e.target.value)
+              }
             />
           </p>
-          <div 
+          <div
             className="modal-action"
           >
-            <form 
+            <form
               method="dialog"
             >
               {/* if there is a button in form, it will close the modal */}
-              <button 
+              <button
                 className="btn btn-secondary"
                 onClick={
                   async () => await saveEmail(emailOnModal)
@@ -298,10 +299,10 @@ const App = () => {
               >
                 Save
               </button>
-              <button 
+              <button
                 className="btn btn-secondary btn-outline ml-3"
                 onClick={
-                  () => setEmailOnModal(emailForCloudApi) 
+                  () => setEmailOnModal(emailForCloudApi)
                 }
               >
                 Cancel
@@ -310,7 +311,7 @@ const App = () => {
           </div>
         </div>
       </dialog>
-      <div 
+      <div
         className="p-4"
       >
         <HashRouter>
@@ -349,30 +350,33 @@ const App = () => {
                   gamesPlayedTrendChartData={
                     getGamesPlayedTrendChartData(gameResults)
                   }
+                  scoreDistributionData={
+                    getScoreDistributionData(gameResults)
+                  }
                 />
-              } 
+              }
             />
             <Route
               path='/setup'
               element={
-                <Setup 
+                <Setup
                   setTitle={setTitle}
                   previousPlayers={getPreviousPlayers(gameResults)}
                   setCurrentPlayers={setCurrentPlayers}
                 />
-              } 
+              }
             />
             <Route
               path='/play'
               element={
-                <Play 
+                <Play
                   addNewGameResult={addNewGameResult}
                   setTitle={setTitle}
                   currentPlayers={currentPlayers}
                   emailForSaving={emailForCloudApi}
                   saveEmail={saveEmail}
                 />
-              } 
+              }
             />
           </Routes>
         </HashRouter>
