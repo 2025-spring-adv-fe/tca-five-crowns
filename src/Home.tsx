@@ -195,6 +195,7 @@ export const Home: React.FC<HomeProps> = ({
                                                                     return `${tooltipItem.parsed.y} total games`;
                                                                 }
                                                             },
+                                                        displayColors: false, // This removes the colored box
                                                         },
                                                     },
                                                     responsive: true,
@@ -620,6 +621,7 @@ export const Home: React.FC<HomeProps> = ({
                                                                     return `${tooltipItem.parsed.y} player${tooltipItem.parsed.y !== 1 ? 's' : ''}`;
                                                                 }
                                                             },
+                                                        displayColors: false, // This removes the colored box
                                                         },
                                                     },
                                                     responsive: true,
