@@ -171,7 +171,7 @@ export const Home: React.FC<HomeProps> = ({
 
                                                             // ],
                                                             data: gamesPlayedTrendChartData,
-                                                            borderColor: "#de2a8a",
+                                                            borderColor: "#3b82f6",
                                                             backgroundColor: "#fff",
                                                             pointRadius: 6,
                                                         },
@@ -602,8 +602,8 @@ export const Home: React.FC<HomeProps> = ({
                                                     datasets: [
                                                         {
                                                             data: scoreDistributionData,
-                                                            backgroundColor: "#de2a8a",
-                                                            borderColor: "#de2a8a",
+                                                            backgroundColor: "#3b82f6",
+                                                            borderColor: "#3b82f6",
                                                             borderWidth: 1,
                                                         },
                                                     ],
