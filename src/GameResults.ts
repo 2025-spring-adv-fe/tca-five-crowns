@@ -70,6 +70,7 @@ export interface GeneralFacts {
     totalGames: number;
     shortestGame: string;
     longestGame: string;
+    uniquePlayers: number;
 }
 
 export interface GoOutsLeaderboardEntry {
@@ -236,6 +237,7 @@ export const getGeneralFacts = (results: GameResult[]): GeneralFacts => {
 			totalGames: 0,
 			shortestGame: "N/A",
 			longestGame: "N/A",
+			uniquePlayers: 0,
 		};
 	}
 
@@ -266,6 +268,7 @@ export const getGeneralFacts = (results: GameResult[]): GeneralFacts => {
 		longestGame: formatGameDuration(
 			Math.max(...gameDurationsInMilliseconds),
 		),
+		uniquePlayers: getPreviousPlayers(results).length,
 	};
 };
 

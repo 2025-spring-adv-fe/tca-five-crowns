@@ -124,6 +124,14 @@ export const Home: React.FC<HomeProps> = ({
                                         {generalFacts.longestGame}
                                     </th>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        Unique Players
+                                    </td>
+                                    <th>
+                                        {generalFacts.uniquePlayers}
+                                    </th>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
