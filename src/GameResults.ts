@@ -430,7 +430,7 @@ export const getGameHistoryData = (
     )
     .map(
         x => ({
-            date: new Date(x.end).toLocaleString("en-US")
+            date: new Date(x.end).toLocaleString("en-US", { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })
             // , players: x.players.join(', ')
             , players: x.scores
                 .map(
