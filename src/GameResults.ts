@@ -32,14 +32,14 @@ const formatLastPlayed = (milliseconds: number): string => {
             const finalDays = remainingDays % 30;
             
             if (months > 0 && finalDays > 0) {
-                return `${years}y ${months}mo ${finalDays}d`;
+                return `${years}y ${months}mo ${finalDays}dd`;
             } else if (months > 0) {
                 return `${years}y ${months}mo`;
             } else {
-                return `${years}y ${finalDays}d`;
+                return `${years}y ${finalDays}dd`;
             }
         } else if (remainingDays > 0) {
-            return `${years}y ${remainingDays}d`;
+            return `${years}y ${remainingDays}dd`;
         } else {
             return `${years}y`;
         }
@@ -56,12 +56,12 @@ const formatLastPlayed = (milliseconds: number): string => {
         const adjustedRemainingDays = days - (cappedMonths * 30);
         
         if (adjustedRemainingDays > 0) {
-            return `${cappedMonths}mo ${adjustedRemainingDays}d`;
+            return `${cappedMonths}mo ${adjustedRemainingDays}dd`;
         } else {
             return `${cappedMonths}mo`;
         }
     } else {
-        return `${days}d`;
+        return `${days}dd`;
     }
 };
 
