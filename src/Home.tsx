@@ -55,6 +55,7 @@ export const Home: React.FC<HomeProps> = ({
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
     const copiedModalRef = useRef<HTMLDialogElement | null>(null);
     const pasteModalRef = useRef<HTMLDialogElement | null>(null);
+    const [clickedPlayer, setClickedPlayer] = useState<string | null>(null);
 
     useEffect(
         () => setTitle(AppTitle)
@@ -306,8 +307,16 @@ export const Home: React.FC<HomeProps> = ({
                                                             <td>
                                                                 {x.average}
                                                             </td>
-                                                            <td>
+                                                            <td
+                                                                className="cursor-pointer relative"
+                                                                onClick={() => setClickedPlayer(clickedPlayer === x.player ? null : x.player)}
+                                                            >
                                                                 {x.player}
+                                                                {clickedPlayer === x.player && (
+                                                                    <div className="absolute z-10 bg-base-300 text-base-content px-2 py-1 rounded shadow-lg text-sm whitespace-nowrap right-full mr-2 top-0">
+                                                                        {x.totalPlayerPoints}
+                                                                    </div>
+                                                                )}
                                                             </td>
                                                         </tr>
                                                     )

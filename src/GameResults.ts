@@ -59,6 +59,7 @@ export interface LeaderboardEntry {
     losses: number;
     average: string;
     player: string;
+    totalPlayerPoints: number;
 }
 
 export interface RankedLeaderboardEntry extends LeaderboardEntry {
@@ -201,7 +202,15 @@ export const getLeaderboard = (results: GameResult[]): RankedLeaderboardEntry[] 
 
                 // No wins, more games makes you lower on the leaderboard...
                 if (0 === a.wins && 0 === b.wins) {
-                    return a.wins + a.losses - (b.wins + b.losses);
+                    const aTotalGames = a.wins + a.losses;
+                    const bTotalGames = b.wins + b.losses;
+
+                    return aTotalGames != bTotalGames
+                        ? a.wins + a.losses - (b.wins + b.losses)
+                        // Third tie breaker, fewest total points. Will anybody
+                        // notice ? ? ?
+                        : a.totalPlayerPoints - b.totalPlayerPoints
+                    ;
                 }
 
                 // Non special case, higher average means higher on leaderboard...
@@ -612,18 +621,28 @@ const getLeaderboardEntry = (
 	results: GameResult[],
 	player: string,
 ): LeaderboardEntry => {
-	const totalGamesForPlayer = results.filter((x) =>
+	const gamesForPlayer = results.filter((x) =>
 		x.players.some((y) => player === y),
-	).length;
+	);
 
 	const wins = results.filter((x) => x.winner === player).length;
 
-	const avg = totalGamesForPlayer > 0 ? wins / totalGamesForPlayer : 0;
+	const avg = gamesForPlayer.length > 0 ? wins / gamesForPlayer.length : 0;
 	return {
 		wins: wins,
-		losses: totalGamesForPlayer - wins,
+		losses: gamesForPlayer.length - wins,
 		average: avg.toFixed(3),
 		player: player,
+        totalPlayerPoints: gamesForPlayer
+            .flatMap(
+                x => x.scores.find(
+                    y => y[0] == player
+                )![1]
+            )
+            .reduce(
+                (acc, x) => acc + x 
+                , 0
+            ),
 	};
 };
 
