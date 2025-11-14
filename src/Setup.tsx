@@ -39,7 +39,7 @@ export const Setup: React.FC<SetupProps> = ({
     // Other code, for example, derived state and other calcs...
     //
     const numberOfChosenPlayers = availablePlayers.filter(x => x.checked).length;
-    const twoToSevenPlayersChosen = numberOfChosenPlayers >= 2 && numberOfChosenPlayers <= 7;
+    const minTwoPlayersChosen = numberOfChosenPlayers >= 2;
 
     const duplicatePlayerName = availablePlayers.some(
         x => x.name.toUpperCase() === newPlayerName.toUpperCase()
@@ -99,7 +99,7 @@ export const Setup: React.FC<SetupProps> = ({
                         nav('/play');
                     }
                 }
-                disabled={!twoToSevenPlayersChosen}
+                disabled={!minTwoPlayersChosen}
             >
                 Start Playing {`(${numberOfChosenPlayers} player${numberOfChosenPlayers !== 1 ? "s" : ""})`}
             </button>
@@ -149,7 +149,7 @@ export const Setup: React.FC<SetupProps> = ({
                     <h2
                         className="card-title ml-3 mt-3"
                     >
-                        Choose 2-7 Players
+                        Choose Players (2 minimum)
                     </h2>
                     <div 
                         className="mx-3 mb-3 text-nowrap overflow-x-hidden"
