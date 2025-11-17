@@ -623,13 +623,14 @@ export const getAvgScoreLeaderboard = (
     return lbd
         .map(
             x => ({
-                avg: x.totalPlayerPoints / (x.wins + x.losses)
+                avg: (x.totalPlayerPoints / (x.wins + x.losses)).toFixed(2)
+                , totalPoints: x.totalPlayerPoints
                 , totalGames: x.wins + x.losses
                 , player: x.player
             })
         )
         .sort(
-            (a, b) => a.avg - b.avg
+            (a, b) => Number(a.avg) - Number(b.avg)
         )
     ;
 };

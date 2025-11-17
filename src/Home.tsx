@@ -365,6 +365,9 @@ export const Home: React.FC<HomeProps> = ({
                                                     AVG SCORE
                                                 </th>
                                                 <th>
+                                                    TOTAL POINTS
+                                                </th>
+                                                <th>
                                                     GAMES
                                                 </th>
                                                 <th>
@@ -386,6 +389,9 @@ export const Home: React.FC<HomeProps> = ({
                                                             </td>
                                                             <td>
                                                                 {x.avg}
+                                                            </td>
+                                                            <td>
+                                                                {x.totalPoints}
                                                             </td>
                                                             <td>
                                                                 {x.totalGames}
