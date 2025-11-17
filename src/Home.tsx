@@ -375,7 +375,7 @@ export const Home: React.FC<HomeProps> = ({
                                         <tbody>
                                             {
                                                 avgScoreLeaderboardData.map(
-                                                    (x: any, i) => (
+                                                    (x: any, i: number) => (
                                                         <tr
                                                             key={x.player}
                                                         >
