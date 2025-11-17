@@ -20,7 +20,8 @@ import {
   getGameHistoryData,
   getLowestScoreAllTimeData,
   getGamesPlayedTrendChartData,
-  getScoreDistributionData
+  getScoreDistributionData,
+  getAvgScoreLeaderboard,
 } from './GameResults';
 import localforage from 'localforage';
 
@@ -352,6 +353,9 @@ const App = () => {
                   }
                   scoreDistributionData={
                     getScoreDistributionData(gameResults)
+                  }
+                  avgScoreLeaderboardData={
+                    getAvgScoreLeaderboard(gameResults)
                   }
                 />
               }

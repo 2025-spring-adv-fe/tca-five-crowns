@@ -614,6 +614,26 @@ export const getScoreDistributionData = (
     }));
 };
 
+export const getAvgScoreLeaderboard = (
+    results: GameResult[]
+) => {
+    // Get the leaderboard data
+    const lbd = getLeaderboard(results);
+
+    return lbd
+        .map(
+            x => ({
+                avg: x.totalPlayerPoints / (x.wins + x.losses)
+                , totalGames: x.wins + x.losses
+                , player: x.player
+            })
+        )
+        .sort(
+            (a, b) => a.avg - b.avg
+        )
+    ;
+};
+
 //
 // Helper functions...
 //

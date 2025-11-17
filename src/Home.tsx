@@ -34,6 +34,7 @@ interface HomeProps {
     lowestScoreAllTimeData: LowestScoreAllTimeData;
     gamesPlayedTrendChartData: any;
     scoreDistributionData: any;
+    avgScoreLeaderboardData: any;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -50,6 +51,7 @@ export const Home: React.FC<HomeProps> = ({
     , lowestScoreAllTimeData
     , gamesPlayedTrendChartData
     , scoreDistributionData
+    , avgScoreLeaderboardData
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -258,7 +260,7 @@ export const Home: React.FC<HomeProps> = ({
                     <h2
                         className="card-title ml-3 mt-3"
                     >
-                        Leaderboard
+                        W/L Leaderboard
                     </h2>
                     {
                         leaderboardData.length > 0
@@ -317,6 +319,80 @@ export const Home: React.FC<HomeProps> = ({
                                                                         {x.totalPlayerPoints}
                                                                     </div>
                                                                 )}
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                )
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            )
+                            : (
+                                <p
+                                    className="mx-3 mb-3 font-extralight"
+                                >
+                                    N/A
+                                </p>
+                            )
+                    }
+                </div>
+            </div>
+            <div
+                className="card w-full bg-base-100 card-md shadow-lg mt-4 border-t-4 border-secondary"
+            >
+                <div
+                    className="card-body p-0"
+                >
+                    <h2
+                        className="card-title ml-3 mt-3"
+                    >
+                        Avg Score Leaderboard
+                    </h2>
+                    {
+                        avgScoreLeaderboardData.length > 0
+                            ? (
+                                <div
+                                    className="overflow-x-auto"
+                                >
+                                    <table
+                                        className="table"
+                                    >
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>
+                                                    AVG SCORE
+                                                </th>
+                                                <th>
+                                                    GAMES
+                                                </th>
+                                                <th>
+                                                    PLAYER
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                avgScoreLeaderboardData.map(
+                                                    (x: any, i) => (
+                                                        <tr
+                                                            key={x.player}
+                                                        >
+                                                            <td
+                                                                className="text-xs font-bold"
+                                                            >
+                                                                {i + 1}
+                                                            </td>
+                                                            <td>
+                                                                {x.avg}
+                                                            </td>
+                                                            <td>
+                                                                {x.totalGames}
+                                                            </td>
+                                                            <td
+                                                            >
+                                                                {x.player}
                                                             </td>
                                                         </tr>
                                                     )
