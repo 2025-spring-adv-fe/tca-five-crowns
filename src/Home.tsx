@@ -362,16 +362,10 @@ export const Home: React.FC<HomeProps> = ({
                                             <tr>
                                                 <th></th>
                                                 <th>
-                                                    AVG SCORE
-                                                </th>
-                                                <th>
-                                                    TOTAL POINTS
-                                                </th>
-                                                <th>
-                                                    GAMES
-                                                </th>
-                                                <th>
                                                     PLAYER
+                                                </th>
+                                                <th>
+                                                    AVG SCORE / GAME
                                                 </th>
                                             </tr>
                                         </thead>
@@ -388,18 +382,14 @@ export const Home: React.FC<HomeProps> = ({
                                                                 {i + 1}
                                                             </td>
                                                             <td>
-                                                                {x.avg}
-                                                            </td>
-                                                            <td>
-                                                                {x.totalPoints}
-                                                            </td>
-                                                            <td>
-                                                                {x.totalGames}
-                                                            </td>
-                                                            <td
-                                                            >
                                                                 {x.player}
                                                             </td>
+                                                            <td>
+                                                                {x.avg}
+                                                                <span className="text-xs font-light ml-4">
+                                                                    {x.totalPoints} pts in {x.totalGames} {`game${x.totalGames === 1 ? "" : "s"}`}
+                                                                </span>
+                                                            </td>                                                            
                                                         </tr>
                                                     )
                                                 )
