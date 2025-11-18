@@ -386,7 +386,7 @@ export const Home: React.FC<HomeProps> = ({
                                                             </td>
                                                             <td>
                                                                 {x.avg}
-                                                                <span className="text-xs font-light ml-4">
+                                                                <span className="text-xs font-light ml-4 text-nowrap">
                                                                     {x.totalPoints} pts in {x.totalGames} {`game${x.totalGames === 1 ? "" : "s"}`}
                                                                 </span>
                                                             </td>                                                            
@@ -456,7 +456,7 @@ export const Home: React.FC<HomeProps> = ({
                                                             </td>
                                                             <td>
                                                                 {x.goOutsPerGame}
-                                                                <span className="text-xs font-light ml-4">
+                                                                <span className="text-xs font-light ml-4 text-nowrap">
                                                                     {x.totalGoOuts} in {x.gamesPlayed} {`game${x.gamesPlayed === 1 ? "" : "s"}`}
                                                                 </span>
                                                             </td>
@@ -520,7 +520,7 @@ export const Home: React.FC<HomeProps> = ({
                                                             </td>
                                                             <td>
                                                                 {x.avgGameDuration}
-                                                                <span className="text-xs font-light ml-4">
+                                                                <span className="text-xs font-light ml-4 text-nowrap">
                                                                     {x.gameCount} {`game${x.gameCount === 1 ? "" : "s"}`}
                                                                 </span>
                                                             </td>
