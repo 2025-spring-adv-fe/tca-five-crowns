@@ -147,16 +147,28 @@ export const Home: React.FC<HomeProps> = ({
                         className="overflow-x-auto"
                     >
                         {
-                            gamesPlayedTrendChartData.length > 0
+                            gamesPlayedTrendChartData.mainData && gamesPlayedTrendChartData.mainData.length > 0
                                 ? (
                                     <div
                                         className="overflow-x-auto"
                                     >
-                                        <Line
-                                            className="p-1"
-                                            data={
+                                        <div style={{ height: '300px' }}>
+                                            <Line
+                                                className="p-1"
+                                                data={
                                                 {
                                                     datasets: [
+                                                        {
+                                                            data: gamesPlayedTrendChartData.gapHighlight,
+                                                            borderColor: "#505050",
+                                                            backgroundColor: "transparent",
+                                                            borderDash: [10, 5],
+                                                            borderWidth: 10,
+                                                            pointRadius: 0,
+                                                            pointHitRadius: 20,
+                                                            showLine: true,
+                                                            order: 2,
+                                                        },
                                                         {
                                                             // data: [
                                                             //     { x: "2025-05-04", y: 0 },
@@ -173,10 +185,11 @@ export const Home: React.FC<HomeProps> = ({
                                                             //     // { x: "2028-06-02", y: 7 },
 
                                                             // ],
-                                                            data: gamesPlayedTrendChartData,
+                                                            data: gamesPlayedTrendChartData.mainData,
                                                             borderColor: "#de2a8a",
                                                             backgroundColor: "#fff",
                                                             pointRadius: 6,
+                                                            order: 1,
                                                         },
                                                     ],
                                                 }
@@ -188,6 +201,10 @@ export const Home: React.FC<HomeProps> = ({
                                                             display: false
                                                         },
                                                         tooltip: {
+                                                            filter: (tooltipItem) => {
+                                                                // Hide tooltip for gap highlight dataset (index 0)
+                                                                return tooltipItem.datasetIndex !== 0;
+                                                            },
                                                             callbacks: {
                                                                 title: (tooltipItems) => {
                                                                     const item = tooltipItems[0];
@@ -238,6 +255,15 @@ export const Home: React.FC<HomeProps> = ({
                                                 }
                                             }
                                         />
+                                        </div>
+                                        {gamesPlayedTrendChartData.gapDuration && (
+                                            <div className="flex items-center justify-center mt-2 mb-3 text-sm">
+                                                <svg width="40" height="10" className="mr-2">
+                                                    <line x1="0" y1="5" x2="40" y2="5" stroke="#505050" strokeWidth="10" strokeDasharray="10,5" />
+                                                </svg>
+                                                <span className="text-sm font-semibold">Longest Gap {gamesPlayedTrendChartData.gapDuration}</span>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                                 : (

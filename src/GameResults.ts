@@ -522,7 +522,7 @@ export const getGamesPlayedTrendChartData = (
 ) => {
 
     if (results.length === 0) {
-        return [];
+        return { mainData: [], gapHighlight: [] };
     }
     
     const grouped = results.reduce(
@@ -547,7 +547,7 @@ export const getGamesPlayedTrendChartData = (
         []
     );
 
-    return [
+    const mainData = [
         ...rt
         , [
             timestampToDate(
@@ -561,6 +561,37 @@ export const getGamesPlayedTrendChartData = (
             , y: x[1]
         })
     );
+
+    // Calculate the largest gap between plays
+    let largestGap = { startDate: '', endDate: '', days: 0, startY: 0, endY: 0 };
+    
+    for (let i = 0; i < mainData.length - 1; i++) {
+        const currentDate = new Date(mainData[i].x);
+        const nextDate = new Date(mainData[i + 1].x);
+        const daysDiff = Math.floor((nextDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24));
+        
+        if (daysDiff > largestGap.days) {
+            largestGap = {
+                startDate: mainData[i].x,
+                endDate: mainData[i + 1].x,
+                days: daysDiff,
+                startY: mainData[i].y,
+                endY: mainData[i + 1].y
+            };
+        }
+    }
+
+    // Create gap highlight data (only the two points that define the largest gap)
+    const gapHighlight = largestGap.days > 0 ? [
+        { x: largestGap.startDate, y: largestGap.startY },
+        { x: largestGap.endDate, y: largestGap.endY }
+    ] : [];
+
+    // Calculate formatted gap duration in milliseconds for human-readable display
+    const gapDurationMs = largestGap.days * 24 * 60 * 60 * 1000;
+    const gapDuration = largestGap.days > 0 ? formatLastPlayed(gapDurationMs) : '';
+
+    return { mainData, gapHighlight, gapDuration };
 };
 
 //
