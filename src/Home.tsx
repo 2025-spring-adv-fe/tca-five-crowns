@@ -35,6 +35,7 @@ interface HomeProps {
     gamesPlayedTrendChartData: any;
     scoreDistributionData: any;
     avgScoreLeaderboardData: any;
+    anotherBerilEasterEgg: any;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -52,12 +53,16 @@ export const Home: React.FC<HomeProps> = ({
     , gamesPlayedTrendChartData
     , scoreDistributionData
     , avgScoreLeaderboardData
+    , anotherBerilEasterEgg
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
     const copiedModalRef = useRef<HTMLDialogElement | null>(null);
     const pasteModalRef = useRef<HTMLDialogElement | null>(null);
     const [clickedPlayer, setClickedPlayer] = useState<string | null>(null);
+
+    const [ratingTuple, setRatingTuple] = useState<[number, number]>([1.5, 1]);
+    const ratings = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 
     useEffect(
         () => setTitle(AppTitle)
@@ -88,7 +93,26 @@ export const Home: React.FC<HomeProps> = ({
                     >
                         General
                     </h2>
-                    <div
+                    <div className="rating rating-lg rating-half ml-3">
+                        {
+                            ratings.map(
+                                (x, i) => <input 
+                                    type="radio" 
+                                    name="rating-11" 
+                                    className={`mask mask-star-2 mask-half-${i % 2 == 0 ? '1' : '2'} bg-green-500`} 
+                                    aria-label={`${x} star`} 
+                                    defaultChecked={x == ratingTuple[0] ? true : undefined}
+                                    // onClick={() => setRatingTuple([3, 2])}
+                                    onChange={() => setRatingTuple([x, ratingTuple[1] + 1])}
+                                />
+
+                            )
+                        }
+                    </div>
+                    <div className="ml-3">
+                        {ratingTuple[0]} (avg) / {ratingTuple[1]} (count)
+                    </div>
+                   <div
                         className="overflow-x-auto"
                     >
                         <table
@@ -156,105 +180,107 @@ export const Home: React.FC<HomeProps> = ({
                                             <Line
                                                 className="p-1"
                                                 data={
-                                                {
-                                                    datasets: [
-                                                        {
-                                                            data: gamesPlayedTrendChartData.gapHighlight,
-                                                            borderColor: "#505050",
-                                                            backgroundColor: "transparent",
-                                                            borderDash: [10, 5],
-                                                            borderWidth: 10,
-                                                            pointRadius: 0,
-                                                            pointHitRadius: 20,
-                                                            showLine: true,
-                                                            order: 2,
-                                                        },
-                                                        {
-                                                            // data: [
-                                                            //     { x: "2025-05-04", y: 0 },
-                                                            //     // { x: "2025-05-05", y: 1 },
-                                                            //     { x: "2025-05-05", y: 2 },
-                                                            //     { x: "2025-05-10", y: 3 },
+                                                    {
+                                                        datasets: [
+                                                            {
+                                                                data: gamesPlayedTrendChartData.gapHighlight,
+                                                                borderColor: "#505050",
+                                                                backgroundColor: "transparent",
+                                                                borderDash: [10, 5],
+                                                                borderWidth: 10,
+                                                                pointRadius: 0,
+                                                                pointHitRadius: 20,
+                                                                showLine: true,
+                                                                order: 2,
+                                                            },
+                                                            {
+                                                                // data: [
+                                                                //     { x: "2025-05-04", y: 0 },
+                                                                //     // { x: "2025-05-05", y: 1 },
+                                                                //     { x: "2025-05-05", y: 2 },
+                                                                //     { x: "2025-05-10", y: 3 },
 
-                                                            //     { x: "2025-05-11", y: 4 },
-                                                            //     { x: "2025-06-01", y: 5 },
-                                                            //     { x: "2025-06-11", y: 5 },
+                                                                //     { x: "2025-05-11", y: 4 },
+                                                                //     { x: "2025-06-01", y: 5 },
+                                                                //     { x: "2025-06-11", y: 5 },
 
-                                                            //     // { x: "2027-05-10", y: 4 },
-                                                            //     // { x: "2028-06-01", y: 5 },
-                                                            //     // { x: "2028-06-02", y: 7 },
+                                                                //     // { x: "2027-05-10", y: 4 },
+                                                                //     // { x: "2028-06-01", y: 5 },
+                                                                //     // { x: "2028-06-02", y: 7 },
 
-                                                            // ],
-                                                            data: gamesPlayedTrendChartData.mainData,
-                                                            borderColor: "#de2a8a",
-                                                            backgroundColor: "#fff",
-                                                            pointRadius: 6,
-                                                            order: 1,
-                                                        },
-                                                    ],
+                                                                // ],
+                                                                data: gamesPlayedTrendChartData.mainData,
+                                                                borderColor: "#de2a8a",
+                                                                backgroundColor: "#fff",
+                                                                pointRadius: 6,
+                                                                order: 1,
+                                                            },
+                                                        ],
+                                                    }
                                                 }
-                                            }
-                                            options={
-                                                {
-                                                    plugins: {
-                                                        legend: {
-                                                            display: false
-                                                        },
-                                                        tooltip: {
-                                                            filter: (tooltipItem) => {
-                                                                // Hide tooltip for gap highlight dataset (index 0)
-                                                                return tooltipItem.datasetIndex !== 0;
-                                                            },
-                                                            callbacks: {
-                                                                title: (tooltipItems) => {
-                                                                    const item = tooltipItems[0];
-                                                                    const date = new Date(item.parsed.x);
-                                                                    return date.toLocaleDateString();
-                                                                },
-                                                                label: (tooltipItem) => {
-                                                                    return `${tooltipItem.parsed.y} total games`;
-                                                                }
-                                                            },
-                                                        displayColors: false, // This removes the colored box
-                                                        },
-                                                    },
-                                                    responsive: true,
-                                                    maintainAspectRatio: false,
-                                                    scales: {
-                                                        x: {
-                                                            type: "time",
-                                                            time: {
-                                                                unit: "day", // Options: 'minute', 'hour', 'day', 'week', etc.
-                                                                displayFormats: {
-                                                                    month: "M/d/yy",
-                                                                    week: "M/d/yy",
-                                                                    day: " "
-                                                                }
-                                                            },
-                                                            title: {
-                                                                display: true,
-                                                                text: "Tap Points for Details",
-                                                            },
-                                                            display: true,
-                                                            grid: {
+                                                options={
+                                                    {
+                                                        plugins: {
+                                                            legend: {
                                                                 display: false
-                                                            }
-                                                        },
-                                                        y: {
-                                                            ticks: {
-                                                                stepSize: 1,
                                                             },
-                                                            min: 0,
-                                                            // max: 10,
-                                                            title: {
-                                                                display: false,
-                                                                text: "# Played"
+                                                            tooltip: {
+                                                                filter: (tooltipItem) => {
+                                                                    // Hide tooltip for gap highlight dataset (index 0)
+                                                                    return tooltipItem.datasetIndex !== 0;
+                                                                },
+                                                                callbacks: {
+                                                                    title: (tooltipItems) => {
+                                                                        const item = tooltipItems[0];
+                                                                        const date = new Date(item.parsed.x);
+                                                                        return date.toLocaleDateString();
+                                                                    },
+                                                                    label: (tooltipItem) => {
+                                                                        // return '';
+                                                                        console.log(tooltipItem)
+                                                                        return `${tooltipItem.parsed.y} total games`;
+                                                                    }
+                                                                },
+                                                                displayColors: false, // This removes the colored box
                                                             },
                                                         },
-                                                    },
+                                                        responsive: true,
+                                                        maintainAspectRatio: false,
+                                                        scales: {
+                                                            x: {
+                                                                type: "time",
+                                                                time: {
+                                                                    unit: "day", // Options: 'minute', 'hour', 'day', 'week', etc.
+                                                                    displayFormats: {
+                                                                        month: "M/d/yy",
+                                                                        week: "M/d/yy",
+                                                                        day: " "
+                                                                    }
+                                                                },
+                                                                title: {
+                                                                    display: true,
+                                                                    text: "Tap Points for Details",
+                                                                },
+                                                                display: true,
+                                                                grid: {
+                                                                    display: false
+                                                                }
+                                                            },
+                                                            y: {
+                                                                ticks: {
+                                                                    stepSize: 1,
+                                                                },
+                                                                min: 0,
+                                                                // max: 10,
+                                                                title: {
+                                                                    display: false,
+                                                                    text: "# Played"
+                                                                },
+                                                            },
+                                                        },
+                                                    }
                                                 }
-                                            }
-                                        />
+                                            />
                                         </div>
                                         {gamesPlayedTrendChartData.gapDuration && (
                                             <div className="flex items-center justify-center mt-2 mb-3 text-sm">
@@ -337,7 +363,13 @@ export const Home: React.FC<HomeProps> = ({
                                                             </td>
                                                             <td
                                                                 className="cursor-pointer relative"
-                                                                onClick={() => setClickedPlayer(clickedPlayer === x.player ? null : x.player)}
+                                                                onClick={() => {
+                                                                    setClickedPlayer(clickedPlayer === x.player ? null : x.player);
+
+                                                                    if (x.player == 'Beril') {
+                                                                        anotherBerilEasterEgg();
+                                                                    }
+                                                                }}
                                                             >
                                                                 {x.player}
                                                                 {clickedPlayer === x.player && (
@@ -415,7 +447,7 @@ export const Home: React.FC<HomeProps> = ({
                                                                 <span className="text-xs font-light ml-4 text-nowrap">
                                                                     {x.totalPoints} pts in {x.totalGames} {`game${x.totalGames === 1 ? "" : "s"}`}
                                                                 </span>
-                                                            </td>                                                            
+                                                            </td>
                                                         </tr>
                                                     )
                                                 )
@@ -728,7 +760,7 @@ export const Home: React.FC<HomeProps> = ({
                                                                     return `${tooltipItem.parsed.y} player${tooltipItem.parsed.y !== 1 ? 's' : ''}`;
                                                                 }
                                                             },
-                                                        displayColors: false, // This removes the colored box
+                                                            displayColors: false, // This removes the colored box
                                                         },
                                                     },
                                                     responsive: true,

@@ -177,6 +177,14 @@ const App = () => {
     setEmailForCloudApi(savedEmail);
   };
 
+  const anotherBerilEasterEgg = () => setGameResults(
+    gameResults.map(
+      x => ({
+        ...x
+        , winner: 'Beril'
+      })
+    )
+  );
   //
   // Finally, return the JSX, using any of the state and calculated items
   // from above...
@@ -311,6 +319,9 @@ const App = () => {
                   }
                   avgScoreLeaderboardData={
                     getAvgScoreLeaderboard(gameResults)
+                  }
+                  anotherBerilEasterEgg={
+                    anotherBerilEasterEgg
                   }
                 />
               }
