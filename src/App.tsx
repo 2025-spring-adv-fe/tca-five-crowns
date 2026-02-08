@@ -225,13 +225,13 @@ const App = () => {
                   <ul
                     tabIndex={-1}
                     className="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
-                    <li><a onClick={() => setStatRangeLookback("0d")}>All Time Fun Facts</a></li>
-                    <li><a onClick={() => setStatRangeLookback("7d")}>Last 7 days</a></li>
-                    <li><a onClick={() => setStatRangeLookback("30d")}>Last 30 days</a></li>
-                    <li><a onClick={() => setStatRangeLookback("60d")}>Last 60 days</a></li>
-                    <li><a onClick={() => setStatRangeLookback("90d")}>Last 90 days</a></li>
-                    <li><a onClick={() => setStatRangeLookback("6mo")}>Last 6 months</a></li>
-                    <li><a onClick={() => setStatRangeLookback("12mo")}>Last 12 months</a></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => { e.currentTarget.blur(); setStatRangeLookback("0d");}}>All Time Fun Facts</button></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => { e.currentTarget.blur(); setStatRangeLookback("7d");}}>Last 7 days</button></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => { e.currentTarget.blur(); setStatRangeLookback("30d");}}>Last 30 days</button></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => { e.currentTarget.blur(); setStatRangeLookback("60d");}}>Last 60 days</button></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => { e.currentTarget.blur(); setStatRangeLookback("90d");}}>Last 90 days</button></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => { e.currentTarget.blur(); setStatRangeLookback("6mo");}}>Last 6 months</button></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => { e.currentTarget.blur(); setStatRangeLookback("12mo");}}>Last 12 months</button></li>
                   </ul>
                 </div>
                 <button
