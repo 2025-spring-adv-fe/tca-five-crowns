@@ -35,7 +35,7 @@ interface HomeProps {
     gamesPlayedTrendChartData: any;
     scoreDistributionData: any;
     avgScoreLeaderboardData: any;
-    statRangeLastYear: boolean;
+    statRangeLookback: string;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -53,7 +53,7 @@ export const Home: React.FC<HomeProps> = ({
     , gamesPlayedTrendChartData
     , scoreDistributionData
     , avgScoreLeaderboardData
-    , statRangeLastYear
+    , statRangeLookback
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -83,9 +83,9 @@ export const Home: React.FC<HomeProps> = ({
                 className="divider divider-secondary text-xl p-5"
             >
                 { 
-                statRangeLastYear 
-                    ? "This Year's Fun Facts" 
-                    : "All Time Fun Facts" 
+                    statRangeLookback === "0d" 
+                        ? "All Time Fun Facts" 
+                        : `Fun Facts Last ${statRangeLookback}`
                 }
             </div>
             <div

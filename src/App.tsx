@@ -51,7 +51,7 @@ const App = () => {
 
   const [emailForCloudApi, setEmailForCloudApi] = useState("");
 
-  const [statRangeLastYear, setStatRangeLastYear] = useState(false);
+  const [statRangeLookback, setStatRangeLookback] = useState("0d");
 
   useEffect(
     () => {
@@ -225,10 +225,13 @@ const App = () => {
                   <ul
                     tabIndex={-1}
                     className="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
-                    <li><a onClick={() => setStatRangeLastYear(false)}>All Time Fun Facts</a></li>
-                    <li><a onClick={() => setStatRangeLastYear(true)}>2024 Fun Facts</a></li>
-                    <li><a onClick={() => setStatRangeLastYear(true)}>2025 Fun Facts</a></li>
-                    <li><a onClick={() => setStatRangeLastYear(true)}>2026 Fun Facts</a></li>
+                    <li><a onClick={() => setStatRangeLookback("0d")}>All Time Fun Facts</a></li>
+                    <li><a onClick={() => setStatRangeLookback("7d")}>Last 7 days</a></li>
+                    <li><a onClick={() => setStatRangeLookback("30d")}>Last 30 days</a></li>
+                    <li><a onClick={() => setStatRangeLookback("60d")}>Last 60 days</a></li>
+                    <li><a onClick={() => setStatRangeLookback("90d")}>Last 90 days</a></li>
+                    <li><a onClick={() => setStatRangeLookback("6mo")}>Last 6 months</a></li>
+                    <li><a onClick={() => setStatRangeLookback("12mo")}>Last 12 months</a></li>
                   </ul>
                 </div>
                 <button
@@ -381,7 +384,7 @@ const App = () => {
                   avgScoreLeaderboardData={
                     getAvgScoreLeaderboard(gameResults)
                   }
-                  statRangeLastYear={statRangeLastYear}
+                  statRangeLookback={statRangeLookback}
                 />
               }
             />
