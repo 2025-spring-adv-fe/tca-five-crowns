@@ -18,7 +18,7 @@ import "chartjs-adapter-date-fns";
 
 ChartJS.register(LineElement, BarElement, CategoryScale, TimeScale, LinearScale, PointElement, Tooltip, Legend);
 
-export const AppTitle = "Five Crowns Companion";
+export const AppTitle = "5 👑 Companion";
 
 interface HomeProps {
     leaderboardData: RankedLeaderboardEntry[];
