@@ -35,6 +35,7 @@ interface HomeProps {
     gamesPlayedTrendChartData: any;
     scoreDistributionData: any;
     avgScoreLeaderboardData: any;
+    statRange: string;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -52,6 +53,7 @@ export const Home: React.FC<HomeProps> = ({
     , gamesPlayedTrendChartData
     , scoreDistributionData
     , avgScoreLeaderboardData
+    , statRange
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -77,6 +79,7 @@ export const Home: React.FC<HomeProps> = ({
             >
                 Play Five Crowns
             </button>
+<div className="divider divider-secondary text-xl p-5">{ statRange }</div>
             <div
                 className="card w-full bg-base-100 card-md shadow-lg mt-4 border-t-4 border-secondary"
             >

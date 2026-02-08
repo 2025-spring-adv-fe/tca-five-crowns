@@ -51,6 +51,8 @@ const App = () => {
 
   const [emailForCloudApi, setEmailForCloudApi] = useState("");
 
+  const [statRange, setStatRange] = useState("All Time Fun Facts");
+
   useEffect(
     () => {
 
@@ -376,6 +378,7 @@ const App = () => {
                   avgScoreLeaderboardData={
                     getAvgScoreLeaderboard(gameResults)
                   }
+                  statRange={statRange}
                 />
               }
             />
