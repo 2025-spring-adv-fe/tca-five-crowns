@@ -224,8 +224,8 @@ const App = () => {
                   <ul
                     tabIndex={-1}
                     className="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
-                    <li><a>All Time Stats</a></li>
-                    <li><a>This Year Stats</a></li>
+                    <li><a>All Time Fun Facts</a></li>
+                    <li><a>This Year's Fun Facts</a></li>
                   </ul>
                 </div>
                 <button
