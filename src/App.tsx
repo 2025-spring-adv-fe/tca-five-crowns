@@ -208,13 +208,13 @@ const App = () => {
     setEmailForCloudApi(savedEmail);
   };
 
-  const filteredGameResults = statRangeLookback === "0d"
+  const lookbackDate = getLookbackDate(new Date(), statRangeLookback);
+
+  const filteredGameResults = lookbackDate === undefined || statRangeLookback === "0d"
     ? gameResults
     : gameResults.filter(
-        x => Date.parse(x.end) >= getLookbackDate(new Date(), statRangeLookback)
-      )
-  ;
-
+      x => Date.parse(x.end) >= lookbackDate.getTime()
+    );
   //
   // Finally, return the JSX, using any of the state and calculated items
   // from above...
