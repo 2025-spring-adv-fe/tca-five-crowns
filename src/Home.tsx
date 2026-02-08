@@ -35,7 +35,7 @@ interface HomeProps {
     gamesPlayedTrendChartData: any;
     scoreDistributionData: any;
     avgScoreLeaderboardData: any;
-    statRange: string;
+    statRangeLastYear: boolean;
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -53,7 +53,7 @@ export const Home: React.FC<HomeProps> = ({
     , gamesPlayedTrendChartData
     , scoreDistributionData
     , avgScoreLeaderboardData
-    , statRange
+    , statRangeLastYear
 }) => {
 
     const [showCopyPasteButtons, setShowCopyPasteButtons] = useState(false);
@@ -79,7 +79,15 @@ export const Home: React.FC<HomeProps> = ({
             >
                 Play Five Crowns
             </button>
-<div className="divider divider-secondary text-xl p-5">{ statRange }</div>
+            <div 
+                className="divider divider-secondary text-xl p-5"
+            >
+                { 
+                statRangeLastYear 
+                    ? "This Year's Fun Facts" 
+                    : "All Time Fun Facts" 
+                }
+            </div>
             <div
                 className="card w-full bg-base-100 card-md shadow-lg mt-4 border-t-4 border-secondary"
             >
@@ -653,7 +661,7 @@ export const Home: React.FC<HomeProps> = ({
                     <h2
                         className="card-title ml-3 mt-3"
                     >
-                        Lowest Score (All Time)
+                        Lowest Score
                     </h2>
                     {
                         lowestScoreAllTimeData.playersWithDates.length > 0

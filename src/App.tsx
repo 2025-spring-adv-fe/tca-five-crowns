@@ -51,7 +51,7 @@ const App = () => {
 
   const [emailForCloudApi, setEmailForCloudApi] = useState("");
 
-  const [statRange, setStatRange] = useState("All Time Fun Facts");
+  const [statRangeLastYear, setStatRangeLastYear] = useState(false);
 
   useEffect(
     () => {
@@ -224,8 +224,8 @@ const App = () => {
                   <ul
                     tabIndex={-1}
                     className="menu dropdown-content bg-base-200 rounded-box z-1 mt-4 w-52 p-2 shadow-sm">
-                    <li><a>All Time Fun Facts</a></li>
-                    <li><a>This Year's Fun Facts</a></li>
+                    <li><a onClick={() => setStatRangeLastYear(false)}>All Time Fun Facts</a></li>
+                    <li><a onClick={() => setStatRangeLastYear(true)}>This Year's Fun Facts</a></li>
                   </ul>
                 </div>
                 <button
@@ -378,7 +378,7 @@ const App = () => {
                   avgScoreLeaderboardData={
                     getAvgScoreLeaderboard(gameResults)
                   }
-                  statRange={statRange}
+                  statRangeLastYear={statRangeLastYear}
                 />
               }
             />
