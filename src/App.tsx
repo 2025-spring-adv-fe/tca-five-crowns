@@ -30,6 +30,26 @@ import {
   , loadGamesFromCloud
 } from './tca-cloud-api';
 
+const getLookbackDate = (date: Date, token: string) => {
+  const d = new Date(date);
+  const match = token.match(/^(\d+)(d|mo)$/);
+
+  if (!match) throw new Error("Invalid token");
+
+  const value = Number(match[1]);
+  const unit = match[2];
+
+  if (unit === "d") {
+    return new Date(d.getTime() - value * 24 * 60 * 60 * 1000);
+  }
+
+  if (unit === "mo") {
+    const result = new Date(d);
+    result.setMonth(d.getMonth() - value);
+    return result;
+  }
+};
+
 const App = () => {
 
   //
@@ -187,6 +207,13 @@ const App = () => {
     setEmailOnModal(savedEmail);
     setEmailForCloudApi(savedEmail);
   };
+
+  const filteredGameResults = statRangeLookback === "0d"
+    ? gameResults
+    : gameResults.filter(
+        x => Date.parse(x.end) >= getLookbackDate(new Date(), statRangeLookback)
+      )
+  ;
 
   //
   // Finally, return the JSX, using any of the state and calculated items
@@ -349,40 +376,40 @@ const App = () => {
               element={
                 <Home
                   leaderboardData={
-                    getLeaderboard(gameResults)
+                    getLeaderboard(filteredGameResults)
                   }
                   setTitle={setTitle}
                   generalFacts={
-                    getGeneralFacts(gameResults)
+                    getGeneralFacts(filteredGameResults)
                   }
                   goOutsLeaderboardData={
-                    getGoOutsPerGameLeaderboard(gameResults)
+                    getGoOutsPerGameLeaderboard(filteredGameResults)
                   }
                   highestSingleHandScoreLeaderboardData={
-                    getHighestSingleHandScoreLeaderboard(gameResults)
+                    getHighestSingleHandScoreLeaderboard(filteredGameResults)
                   }
                   gameDurationData={
-                    getAverageGameDurationsByPlayerCount(gameResults)
+                    getAverageGameDurationsByPlayerCount(filteredGameResults)
                   }
                   gamesByMonthData={
-                    getGamesByMonth(gameResults)
+                    getGamesByMonth(filteredGameResults)
                   }
                   allGames={
-                    getGameHistoryData(gameResults)
+                    getGameHistoryData(filteredGameResults)
                   }
                   addNewGameResult={addNewGameResult}
                   emailForSaving={emailForCloudApi}
                   lowestScoreAllTimeData={
-                    getLowestScoreAllTimeData(gameResults)
+                    getLowestScoreAllTimeData(filteredGameResults)
                   }
                   gamesPlayedTrendChartData={
-                    getGamesPlayedTrendChartData(gameResults)
+                    getGamesPlayedTrendChartData(filteredGameResults)
                   }
                   scoreDistributionData={
-                    getScoreDistributionData(gameResults)
+                    getScoreDistributionData(filteredGameResults)
                   }
                   avgScoreLeaderboardData={
-                    getAvgScoreLeaderboard(gameResults)
+                    getAvgScoreLeaderboard(filteredGameResults)
                   }
                   statRangeLookback={statRangeLookback}
                 />
