@@ -321,6 +321,9 @@ const App = () => {
             {/* this hidden checkbox controls the state */}
             <input
               type="checkbox"
+              checked={
+                darkMode
+              }
               onClick={
                 async () => {
                   const savedDarkMode = await localforage.setItem("darkMode", !darkMode);
