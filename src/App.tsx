@@ -294,6 +294,7 @@ const App = () => {
                   >
                     <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => statRangeLookbackSelected(e, "0d")}>All Time Fun Facts</button></li>
                     <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => statRangeLookbackSelected(e, "7d")}>Last 7 days</button></li>
+                    <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => statRangeLookbackSelected(e, "14d")}>Last 14 days</button></li>
                     <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => statRangeLookbackSelected(e, "30d")}>Last 30 days</button></li>
                     <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => statRangeLookbackSelected(e, "60d")}>Last 60 days</button></li>
                     <li><button className="btn btn-ghost text-lg text-left" onClick={(e) => statRangeLookbackSelected(e, "90d")}>Last 90 days</button></li>
