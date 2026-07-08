@@ -677,7 +677,12 @@ export const getAvgScoreLeaderboard = (
     results: GameResult[]
 ) => {
     // Get the leaderboard data
-    const lbd = getLeaderboard(results);
+    const lbd = getLeaderboard(
+        results
+            .filter(
+                (x) => getGameDurationInMilliseconds(x) > RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS
+            )
+    );
 
     return lbd
         .map(
