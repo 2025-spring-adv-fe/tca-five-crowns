@@ -1,6 +1,8 @@
 import { durationFormatter } from "human-readable";
 import { z } from "zod";
 
+const RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS = 5 * 60 * 1000;
+
 const formatGameDuration = durationFormatter<string>();
 
 const formatLastPlayed = durationFormatter<string>({
@@ -266,9 +268,9 @@ export const getGeneralFacts = (results: GameResult[]): GeneralFacts => {
         .map(
 		    (x) => getGameDurationInMilliseconds(x),
 	    )
-        // Don't use any game <= 5 minutes
+        // Some games considered result-only, i-o-g...
         .filter(
-            (x) => x > 5 * 60 * 1000 // 5m in ms
+            (x) => x > RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS
         )
     ;
 
