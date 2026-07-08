@@ -497,20 +497,25 @@ export const getLowestScoreAllTimeData = (
 ): LowestScoreAllTimeData => {
 
     // Don't worry about sort, most recent games already first in results ? ? ? i-o-g
-    const winnerScores = results.map(
-        x => ({
-            winner: x.winner
-            , score: x.scores.find(
-                y => y[0] === x.winner
-            )![1].reduce(
-                (acc, z) => z >= 0 
-                    ? acc + z 
-                    : acc
-                , 0
-            )
-            , end: x.end
-        })
-    );
+    const winnerScores = results
+        .filter(
+            (x) => getGameDurationInMilliseconds(x) > RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS
+        )
+        .map(
+            x => ({
+                winner: x.winner
+                , score: x.scores.find(
+                    y => y[0] === x.winner
+                )![1].reduce(
+                    (acc, z) => z >= 0 
+                        ? acc + z 
+                        : acc
+                    , 0
+                )
+                , end: x.end
+            })
+        )
+    ;
 
     const lowestScore = Math.min(
         ...winnerScores.map(
