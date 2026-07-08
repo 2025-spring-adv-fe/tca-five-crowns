@@ -262,9 +262,15 @@ export const getGeneralFacts = (results: GameResult[]): GeneralFacts => {
 	// );
 
 	// Calcs for shortest/longest...
-	const gameDurationsInMilliseconds = results.map(
-		(x) => getGameDurationInMilliseconds(x),
-	);
+	const gameDurationsInMilliseconds = results
+        .map(
+		    (x) => getGameDurationInMilliseconds(x),
+	    )
+        // Don't use any game <= 5 minutes
+        .filter(
+            (x) => x > 5 * 60 * 1000 // 5m in ms
+        )
+    ;
 
 	return {
 		lastPlayed: `${formatLastPlayed(lastPlayedInMilliseconds)} ago`,
