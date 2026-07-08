@@ -302,17 +302,24 @@ export const getGoOutsPerGameLeaderboard = (
 	return players
 		.map((player) => {
 			// Find games this player participated in
-			const playerGames = results.filter((game) =>
-				game.players.includes(player),
-			);
+			const playerGames = results
+                .filter(
+                    (x) => getGameDurationInMilliseconds(x) > RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS
+                )
+                .filter((game) =>
+				    game.players.includes(player),
+			    )
+            ;
 
 			// Count total go outs for this player
-			const totalGoOuts = playerGames.reduce(
-				(count, game) =>
-					count +
-					game.goOuts.filter((name) => name === player).length,
-				0,
-			);
+			const totalGoOuts = playerGames
+                .reduce(
+                    (count, game) =>
+                        count +
+                        game.goOuts.filter((name) => name === player).length,
+                    0,
+                )
+            ;
 
 			// Calculate go outs per game ratio
 			const gamesPlayed = playerGames.length;
