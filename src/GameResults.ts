@@ -623,11 +623,16 @@ export const getScoreDistributionData = (
     }
     
     // Get all final scores from all games
-    const allScores = results.flatMap(game => 
-        game.scores.map(([, scores]) => 
-            scores.reduce((acc, score) => score >= 0 ? acc + score : acc, 0)
+    const allScores = results
+        .filter(
+            (x) => getGameDurationInMilliseconds(x) > RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS
         )
-    );
+        .flatMap(game => 
+            game.scores.map(([, scores]) => 
+                scores.reduce((acc, score) => score >= 0 ? acc + score : acc, 0)
+            )
+        )
+    ;
     
     if (allScores.length === 0) {
         return [];
