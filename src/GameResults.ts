@@ -365,15 +365,20 @@ export const getGoOutsPerGameLeaderboard = (
 export const getAverageGameDurationsByPlayerCount = (results: GameResult[]) => {
 
 	// Group game results by player count, advanced reduce()...
-	const grouped = results.reduce(
-		(acc, x) =>
-			acc.set(
-				x.players.length,
-				//, [x]
-				[...(acc.get(x.players.length) ?? []), x],
-			),
-		new Map<number, GameResult[]>(),
-	);
+	const grouped = results
+        .filter(
+            (x) => getGameDurationInMilliseconds(x) > RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS
+        )
+        .reduce(
+            (acc, x) =>
+                acc.set(
+                    x.players.length,
+                    //, [x]
+                    [...(acc.get(x.players.length) ?? []), x],
+                ),
+            new Map<number, GameResult[]>(),
+        )
+    ;
 
 	// const grouped = Map.groupBy(
 	//     grs
