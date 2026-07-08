@@ -446,33 +446,38 @@ export const getGameHistoryData = (
         (a, b) => Date.parse(b.end) - Date.parse(a.end)
     )
     .map(
-        x => ({
-            date: `${new Date(x.end).toLocaleString("en-US", { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })} (${formatGameDuration(getGameDurationInMilliseconds(x))})`
-            // , players: x.players.join(', ')
-            , players: x.scores
-                .map(
-                    x => ({
-                        name: x[0]
-                        , score: x[1].reduce(
-                            (acc, y) => y >= 0 
-                                ? acc + y
-                                : acc
-                            , 0
-                        )
-                    })
-                )
-                .sort(
-                    (a, b) => a.name === x.winner 
-                        // Winner should always come before others, even with same score ! ! !
-                        ? -1
-                        : a.score - b.score
-                )
-                .map(
-                    x => `${x.name} (${x.score})`
-                )
-                .join(', ')
-            , result: x 
-        })
+        x => { 
+            const gameDuration = getGameDurationInMilliseconds(x);
+            const gameDurationDisplay = `(${formatGameDuration(gameDuration)}${gameDuration <= RESULT_ONLY_GAME_HEURISTIC_IN_MILLISECONDS ? ', assume W/L only entry?' : ''})`;
+
+            return {
+                date: `${new Date(x.end).toLocaleString("en-US", { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true })} ${gameDurationDisplay}`
+                // , players: x.players.join(', ')
+                , players: x.scores
+                    .map(
+                        x => ({
+                            name: x[0]
+                            , score: x[1].reduce(
+                                (acc, y) => y >= 0 
+                                    ? acc + y
+                                    : acc
+                                , 0
+                            )
+                        })
+                    )
+                    .sort(
+                        (a, b) => a.name === x.winner 
+                            // Winner should always come before others, even with same score ! ! !
+                            ? -1
+                            : a.score - b.score
+                    )
+                    .map(
+                        x => `${x.name} (${x.score})`
+                    )
+                    .join(', ')
+                , result: x 
+            };
+        }
     );
 ;
 
