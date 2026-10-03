@@ -60,6 +60,35 @@ export const Home: React.FC<HomeProps> = ({
     const copiedModalRef = useRef<HTMLDialogElement | null>(null);
     const pasteModalRef = useRef<HTMLDialogElement | null>(null);
     const [clickedPlayer, setClickedPlayer] = useState<string | null>(null);
+    const [highlightedPlayer, setHighlightedPlayer] = useState<string | null>(null);
+
+    const toggleHighlight = (player: string) => setHighlightedPlayer(
+        highlightedPlayer === player ? null : player
+    );
+
+    // Translucent warning color reads as yellow, but stays soft in dark mode...
+    const highlightStyle = (player: string): React.CSSProperties | undefined => highlightedPlayer === player
+        ? { backgroundColor: 'color-mix(in srgb, var(--color-warning) 25%, transparent)' }
+        : undefined
+    ;
+
+    const highlightChip = () => (
+        highlightedPlayer !== null
+            ? (
+                <button
+                    className="btn btn-ghost btn-xs opacity-70 ml-3 self-start"
+                    title="Clear highlight"
+                    onClick={() => setHighlightedPlayer(null)}
+                >
+                    Highlighting: {highlightedPlayer} — tap to cancel ✕
+                </button>
+            )
+            : (
+                <span className="badge badge-ghost badge-sm font-normal ml-3 self-start">
+                    Tap row to highlight
+                </span>
+            )
+    );
 
     useEffect(
         () => setTitle(AppTitle)
@@ -299,6 +328,7 @@ export const Home: React.FC<HomeProps> = ({
                     >
                         W/L Leaderboard
                     </h2>
+                    {highlightChip()}
                     {
                         leaderboardData.length > 0
                             ? (
@@ -331,6 +361,9 @@ export const Home: React.FC<HomeProps> = ({
                                                     x => (
                                                         <tr
                                                             key={x.player}
+                                                            className="cursor-pointer"
+                                                            style={highlightStyle(x.player)}
+                                                            onClick={() => toggleHighlight(x.player)}
                                                         >
                                                             <td
                                                                 className="text-xs font-bold"
@@ -386,6 +419,7 @@ export const Home: React.FC<HomeProps> = ({
                     >
                         Avg Score Leaderboard
                     </h2>
+                    {highlightChip()}
                     {
                         avgScoreLeaderboardData.length > 0
                             ? (
@@ -412,6 +446,9 @@ export const Home: React.FC<HomeProps> = ({
                                                     (x: any, i: number) => (
                                                         <tr
                                                             key={x.player}
+                                                            className="cursor-pointer"
+                                                            style={highlightStyle(x.player)}
+                                                            onClick={() => toggleHighlight(x.player)}
                                                         >
                                                             <td
                                                                 className="text-xs font-bold"
@@ -456,6 +493,7 @@ export const Home: React.FC<HomeProps> = ({
                     >
                         "Go Outs" Leaderboard
                     </h2>
+                    {highlightChip()}
                     {
                         goOutsLeaderboardData.length > 0
                             ? (
@@ -482,6 +520,9 @@ export const Home: React.FC<HomeProps> = ({
                                                     x => (
                                                         <tr
                                                             key={x.player}
+                                                            className="cursor-pointer"
+                                                            style={highlightStyle(x.player)}
+                                                            onClick={() => toggleHighlight(x.player)}
                                                         >
                                                             <td
                                                                 className="text-xs font-bold"
@@ -590,6 +631,7 @@ export const Home: React.FC<HomeProps> = ({
                     >
                         Worst Hands
                     </h2>
+                    {highlightChip()}
                     {
                         highestSingleHandScoreLeaderboardData.length > 0
                             ? (
@@ -619,6 +661,9 @@ export const Home: React.FC<HomeProps> = ({
                                                     x => (
                                                         <tr
                                                             key={x.player}
+                                                            className="cursor-pointer"
+                                                            style={highlightStyle(x.player)}
+                                                            onClick={() => toggleHighlight(x.player)}
                                                         >
                                                             <td
                                                                 className="text-xs font-bold"
@@ -911,7 +956,27 @@ export const Home: React.FC<HomeProps> = ({
                                                                 <div
                                                                     className="inline"
                                                                 >
-                                                                    {x.players}
+                                                                    {
+                                                                        x.players.split(', ').map(
+                                                                            (entry, i) => (
+                                                                                <span key={entry}>
+                                                                                    {i > 0 && ', '}
+                                                                                    {
+                                                                                        highlightedPlayer !== null && entry.startsWith(`${highlightedPlayer} (`)
+                                                                                            ? (
+                                                                                                <span
+                                                                                                    className="rounded px-1 font-semibold"
+                                                                                                    style={highlightStyle(highlightedPlayer)}
+                                                                                                >
+                                                                                                    {entry}
+                                                                                                </span>
+                                                                                            )
+                                                                                            : entry
+                                                                                    }
+                                                                                </span>
+                                                                            )
+                                                                        )
+                                                                    }
                                                                     {
                                                                         showCopyPasteButtons && (
                                                                             <svg
